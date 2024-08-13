@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Broadcast</title>
+    <link rel="icon" href="../uploads/mp-logo.png" type="image/png" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100..900&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body style="font-family: 'Roboto Slab', serif; padding: 20px">
+    <header class="bt-header">
+      <br />
+      <h1 style="font-size: 20px">{broadcastTitle}</h1>
+    </header>
+    <br />
+    <br />
+    <main class="bt-main">
+      <p style="font-size: 16px">Hi,</p>
+      <br />
+      <p style="font-size: 16px">{broadcastDescription}</p>
+      <br />
+      <p style="margin-top: 10px; font-size: 16px">Regards,</p>
+      <p>{addedBy.fullName}</p>
+      <br />
+      <div
+        style="
+          display: flex;
+          align-items: center;
+        "
+      >
+        <a
+          class="btn"
+          style="font-size: 16px; text-decoration: underline; color: red"
+          href="{unsubscribeLink}"
+          >Unsubscribe</a
+        >
+        <span style="margin-left: 5px; font-weight: 500">|</span>
+        <p style="margin-left: 5px">{addedBy.address}</p>
+      </div>
+    </main>
+    <br />
+    <br />
+    <footer class="bt-footer">
+      <a
+        href=""
+        class="btn"
+        style="
+          margin-bottom: 10px;
+          margin-top: 10px;
+          background-color: black;
+          border: none;
+          outline: none;
+          font-size: 14px;
+          letter-spacing: 0.5px;
+          text-decoration: none;
+          color: white;
+          padding: 13px 13px;
+          text-align: center;
+          border-radius: 10px;
+        "
+        >Built with ManagePoint</a
+      >
+    </footer>
+  </body>
+</html>
