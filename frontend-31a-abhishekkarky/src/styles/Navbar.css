@@ -1,0 +1,234 @@
+* {
+    padding: 0;
+    margin: 0;
+    text-decoration: none;
+    list-style: none;
+    box-sizing: border-box;
+}
+body {
+    font-family: 'Roboto Slab', serif;
+}
+i {
+    color: white;
+}
+header, nav {
+    font-family: 'Roboto Slab', serif;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    height: 120px;
+    width: 100%;
+    top: 0;
+    border: 0;
+    background-color: #202227;
+    
+    /* box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.19); */
+    z-index: 1;
+    gap: 300px;
+}
+.logo img {
+    height: 100px;
+    max-height: 100px;
+    max-width: 100px;
+    width: 100px;
+    padding-top: 10px;
+}
+nav ul {
+    float: right;
+    align-items: center;
+}
+nav ul li {
+    display: inline-block;
+    line-height: 80px;
+    margin: 0 5px;
+}
+nav ul li a {
+    font-size: 1.15rem;
+    padding: 7px 14px;
+    color: white;
+    border: 0;
+    outline: none;
+}
+nav ul button {
+    background: transparent;
+    border: 0px;
+    padding-left: 40px;
+    cursor: pointer;
+    outline: none;
+}
+/* nav ul button:hover i{
+    color: #1283b2;
+} */
+nav ul button a {
+    color: white;
+    font-size: 1.063rem;
+    padding: 7px 14px;
+    outline: none;
+    border: 0;
+}
+nav ul a.active,
+nav ul a:hover {
+    color: black;
+    background-color: white;
+    transition: 0.5s; 
+    border-radius: 10px;
+}
+nav ul a:hover>.bell-full {
+    color: black;
+}
+#contact {
+    background: #08506f;
+    border-radius: 20px;
+    color: white;
+}
+.dropbtn {
+    font-family: 'Roboto Slab', serif;
+    color: white;
+    gap: 10px;
+    padding: 7px 13px;
+    font-size: 1.15rem;
+}
+.dropbtn img {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    object-fit: cover;
+    margin-bottom: -10px;
+}
+.dropdown {
+    position: relative;
+    display: inline-block;
+    color: white;
+}
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: white;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    padding-top: 10px;
+    color: black;
+    width: max-content;
+    text-align: left;
+}
+.dropdown-content a, .dropdown-content .logout {
+    color: rgb(255, 255, 255);
+    padding: 7px 13px !important;
+    text-decoration: none;
+    display: block;
+    color: black;
+    font-size: 1.058rem;
+    font-family: 'Roboto Slab', serif;
+}
+.dropdown-content .logout {
+    margin-top: 0 !important;
+}
+
+.dropdown-content a:hover {
+    background-color: none;
+    color: black;
+}
+.dropdown:hover .dropdown-content {
+    display: block;
+    color: white;
+}
+.checkbtn {
+    font-size: 1.875rem;
+    color: white;
+    float: right;
+    line-height: 80px;
+    margin-right: 40px;
+    cursor: pointer;
+    display: none;
+}
+#check {
+    display: none;
+}
+.line-seperator {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+.line-seperator .line {
+    width: 82% !important;
+    border: 2px solid white !important;
+}
+@media (max-width: 952px) {
+    label.logo {
+        font-size: 30px;
+    }
+    nav ul li a {
+        font-size: 16px;
+    }
+    nav {
+        padding: 0 0px;
+    }
+}
+@media (max-width: 1215px) {
+    nav {
+        flex-direction: row-reverse;
+    }
+    .checkbtn {
+        display: block;
+    }
+    nav ul {
+        position: fixed;
+        width: 100%;
+        height: 100vh;
+        background: #202227;
+        top: 130px;
+        left: -100%;
+        text-align: center;
+        transition: all 0.5s;
+    }
+    nav ul li {
+        display: block;
+        margin: 50px 0;
+        line-height: 30px;
+    }
+    nav ul li a {
+        font-size: 20px;
+    }
+    nav ul button a {
+        font-size: 20px;
+    }
+    nav a:hover,
+    nav a.active {
+        background: none;
+        color: #090a0a;
+    }
+    #check:checked ~ ul {
+        left: 0;
+    }
+}
+@media (max-width:800px) {
+    .logo img {
+        width: 100px;
+        height: 150px;
+    }
+}
+@media (max-width: 600px) {
+    header, nav {
+        gap: 100px;
+    }
+}
+@media (max-width: 452px) {
+    header, nav {
+        gap: 50px;
+    }
+}
+@media (max-width: 375px) {
+    header, nav {
+        width: 100%;
+        gap: 0;
+    }
+    .logo img {
+        width: 100px;
+        height: 150px;
+    }
+}
+

@@ -1,0 +1,48 @@
+.new-broadcast-main {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 50px;
+}
+.broadcast-detail-body {
+    padding: 30px;
+    width: 85%;
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+    background: white;
+    color: black;
+    gap: 10px;
+    min-height: 60vh;
+}
+.subject {
+    font-size: 25px;
+}
+.description {
+    margin-top: 10px;
+}
+.stats, .published-date-h1 {
+    margin-top: 10px;
+    font-size: 18px;
+}
+.rec-counts {
+    font-size: 40px;
+    font-weight: 600;
+}
+.recipients {
+    font-size: 18px;
+}
+.row-bd-stats {
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: 30px;
+}
+.published-date-h1 {
+    margin-top: 20px;
+}
+.date {
+    font-size: 16px;
+}

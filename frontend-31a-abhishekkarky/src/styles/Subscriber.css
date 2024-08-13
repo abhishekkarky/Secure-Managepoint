@@ -1,0 +1,324 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+body {
+    background-color: #202227;
+    font-family: 'Roboto Slab', serif;
+    color: white;
+}
+html {
+    scroll-behavior: smooth;
+}
+.subscriber-main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+.s-main-top {
+    width: 80%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.s-main-top form {
+    display: flex;
+    width: 30%;
+    height: 50px;
+    padding: 1px;
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: white;
+}
+.s-main-top form input {
+    color: black;
+    outline: none;
+    width: 70%;
+    font-size: 15px;
+    padding-left: 15px;
+    border: 0;
+    background-color: transparent;
+    font-family: 'Roboto Slab', serif;
+}
+.s-main-top button {
+    width: 30%;
+    height: 100%;
+    font-size: 15px;
+    color: white;
+    outline: none;
+    border: 0;
+    cursor: pointer;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+    background-color: #202227;
+    font-family: 'Roboto Slab', serif;
+}
+.s-main-top button:hover {
+    font-size: 17px;
+}
+.s-main-bottom {
+    width: 80%;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-top: 50px;
+}
+.s-main-bottom-left {
+    width: 65%;
+    height: 70vh;
+    border-radius: 10px;
+    overflow-y: auto;
+    padding: 10px 30px 10px 30px;
+    background-color: white;
+}
+.table {
+    width: 100%;
+    color: black;
+    border-collapse: collapse; 
+}
+.table thead tr th {
+    border: 1px solid #202227;
+    padding: 8px;
+    font-weight: bold;
+    font-size: large;
+}
+.table thead th:nth-child(1) {
+    border-left: 0;
+}
+.table thead th:nth-child(3) {
+    border-right: 0;
+}
+.table thead {
+    height: 5vh;
+}
+.table tbody tr {
+    border-top: 1px solid #202227;
+    height: 8vh !important;
+}
+.table tbody tr td {
+    padding-left: 20px;
+    font-weight: 500;
+}
+.s-main-bottom-right {
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+    justify-content: center;
+    align-items: flex-end;
+}
+.count {
+    text-align: center;
+    width: 100%;
+}
+.count p {
+    font-size: 18px;
+}
+.bottom-right-box-one, .bottom-right-box-two {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    min-height: 20vh;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-radius: 10px;
+    border: 0.3px solid white;
+    box-shadow: 0 4px 4px 0 rgb(195, 195, 195), 0 6px 10px 0 rgb(199, 199, 199);
+
+}
+.bottom-right-box-one a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 90%;
+    height: 50px;
+    border-radius: 8px;
+    outline: none;
+    border: 0;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    background-color: white;
+    color: #202227;
+}
+.bottom-right-box-one a:nth-child(1) {
+    width: 60%;
+    background-color: transparent;
+    color: white;
+    border: 1px solid white;
+}
+.bottom-right-box-one a:nth-child(1):hover {
+    box-shadow: 3px 3px 3px white, -3px -3px 3px white;
+}
+.bottom-right-box-two {
+    min-height: 40vh;
+}
+.add-button i{
+    margin-right: 5px;
+}
+.bottom-right-box-one a:nth-child(1):hover {
+    font-size: 14px;
+}
+.manage-button i {
+    margin-right: 5px;
+    color: black;
+}
+.manage-button:hover {
+    font-size: 14px;
+}
+.box-two-cards {
+    display: flex;
+    width: 90%;
+    padding: 5px;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 70px;
+}
+.card-icon {
+    margin-top: 10px;
+    width: 10%;
+    height: 100%;
+}
+.card-icon i {
+    font-size: 20px;
+}
+.card-item {
+    width: 88%;
+    height: 100%;
+}
+.card-item a {
+    font-size: 13px;
+    text-decoration: underline;
+    color: white;
+}
+
+.pagination {
+    display: flex;
+    list-style: none;
+    width: 100%;
+    height: 45px;
+    gap: 20px;
+    justify-content: space-evenly;
+    align-items: center;
+    color: black;
+    margin-top: 5px;
+  }
+  
+  .pagination__link {
+    cursor: pointer;
+    border-radius: 10px;
+    font-family: 'Roboto Slab', serif;
+    border: 0;
+    outline: 0;
+    color: black;
+    padding: 10px 20px 10px 20px;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 400;
+  }
+  
+  .pagination__link--disabled {
+    cursor: not-allowed;
+  }
+
+  .no-result {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  @media (max-width: 1269px) {
+    .s-main-bottom {
+        flex-direction: column-reverse;
+        justify-content: center;
+        align-items: flex-start;
+        margin-top: 10px;
+    }
+    .s-main-bottom-right {
+        width: 100%;
+        padding: 0;
+    }
+    .count {
+        display: none;
+        width: 100%;
+        text-align: right;
+        padding: 0;
+    }
+    .s-main-bottom-left {
+        width: 100%;
+    }
+}
+
+@media (max-width: 946px) {
+    .s-main-top {
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+    }
+    .s-main-top form {
+        width: 100%;
+        margin-top: 20px;
+    }
+    
+}
+
+@media (max-width: 600px) {
+    .s-main-bottom-left {
+        padding: 10px;
+    }
+    
+}
+
+@media (max-width: 500px) {
+    .s-main-top {
+        width: 95%;
+    }
+    .s-main-bottom {
+        width: 95%;
+    }
+}
+
+@media (max-width: 475px) {
+    .table thead tr th {
+        padding: 8px;
+        font-weight: medium;
+        font-size: 15px;
+    }
+    .table tbody tr td {
+        padding-left: 10px;
+        font-weight: 500;
+        font-size: 14px;
+    }
+}
+
+
+  
+@media (max-width: 390px) {
+    .bottom-right-box-one {
+        font-size: 12px;
+    }
+    .bottom-right-box-one .add-button {
+        font-size: 14px;
+    }
+    .bottom-right-box-one .manage-button {
+        font-size: 14px;
+    }
+    .bottom-right-box-one .manage-button:hover {
+        font-size: 15px !important;
+    }
+    
+}
+
+
+
+/* Add Subscriber */
+
+
+
+

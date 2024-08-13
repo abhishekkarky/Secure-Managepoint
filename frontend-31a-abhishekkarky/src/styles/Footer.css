@@ -1,0 +1,249 @@
+.fa-copyright {
+    color: black;
+}
+footer {
+    display: flex;
+    flex-direction: column;
+    font-family: 'Roboto Slab', serif;
+    width: 100%;
+    min-height: 50vh;
+    color: white;
+    font-size: 18px;
+    background-color: #191a1f;
+    border-top-right-radius: 30px;
+    border-top-left-radius: 30px;
+}
+.footer-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 100%;
+    min-height: 35vh;
+}
+.footer-first, .footer-second, .footer-third, .footer-forth {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 340px;
+    height: 35vh;
+    margin-top: 5vh;
+}
+.footer-first {
+    justify-content: flex-start;
+    align-items: center;
+    width: 350px;
+}
+.footer-first-logo {
+    width: 60%;
+    height: 25vh;
+}
+.footer-first-logo img {
+    width: 100%;
+    height: 100%;
+}
+.footer-second {
+    width: 240px;
+    padding-left: 20px;
+}
+.footer-second ul {
+    min-height: 20vh;
+}
+.footer-second ul li {
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+}
+.footer-second ul li a {
+    color: white;
+}
+.footer-third {
+    width: 280px;
+    padding-left: 20px;
+}
+.footer-third .fa-solid {
+    color: white;
+}
+.footer-third ul {
+    display: flex;
+    flex-direction: column;
+    min-height: 20vh;
+}
+.footer-third ul li {
+    display: flex;
+    margin-top: 10px;
+}
+.footer-third ul li p {
+    padding-left: 10px;
+}
+.footer-forth h3 {
+    padding-left: 18px;
+}
+.footer-forth ul {
+    display: flex;
+    justify-content: space-evenly;
+    width: 180px;
+    min-height: 20vh;
+}
+.footer-forth ul li {
+    display: flex;
+    margin-top: 10px;
+}
+.footer-description-anchor {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+.footer-links {
+    width: 100%;
+    height: 100%;
+}
+.footer-tail {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    color: black;
+    font-size: 16px;
+    min-height: 10vh;
+}
+.dev-name {
+    color: #235784;
+}
+.dev-name:hover {
+    font-size: 20px;
+}
+.footer-tail-rights-text {
+    padding-left: 5px;
+}
+@media (max-width: 600px) {
+    .footer-tail {
+        flex-direction: column;
+    }
+}
+@media (max-width: 500px) {
+    .footer-first, .footer-second, .footer-third, .footer-forth {
+        width: 100%;
+    }
+    .footer-first {
+        padding-left: 20px;
+        justify-content: flex-start;
+        align-items: flex-start;
+    }
+    .footer-first-logo {
+        width: 100%;
+    }
+}
+@media (max-width: 500px) {
+    .footer-first-logo {
+        width: 50%;
+    }
+}
+@media (max-width: 454px) {
+    .footer-first {
+        margin-top: 20px;
+    }
+}
+@media (max-width: 445px) {
+    .footer-second, .footer-third, .footer-forth {
+        margin-top: 0%;
+    }
+}
+
+@media (max-width: 900px) {
+    .main-first-left {
+        width: 100%;
+    }
+    .main-first-right {
+        display: none;
+    }
+    .main-second-content {
+        flex-direction: column;
+    }
+    .main-second-content-text {
+        width: 100%;
+    }
+    .main-second-content-map {
+        margin-top: 20px;
+        width: 100%;
+    }
+    .contact-main-wrap {
+        width: 100%;
+    }
+}
+
+@media(max-width: 1366px) {
+    .contact-wrap {
+        width: 100%;
+    }
+}
+@media(max-width: 1093px) {
+    .contact-wrap {
+        align-items: center;
+        flex-direction: column;
+    }
+    .wrap-first {
+        width: 100%;
+    }
+    .wrap-second {
+        width: 100%;
+    }
+}
+@media(max-width: 800px) {
+    .main-second {
+        width: 100%;
+        padding-right: 45px;
+    }
+    .contact-main-wrap-title {
+        padding-left: 45px;
+    }
+}
+@media(max-width: 817px) {
+    .main-contact h2 {
+        font-size: 2rem;
+    }
+    .subtitle {
+        font-size: 0.8rem;
+    }
+}
+@media(max-width: 631px) {
+    .contact-wrap {
+        width: 100%;
+    }
+    .wrap-first {
+        width: 100%;
+    }
+    .wrap-second {
+        width: 100%;
+    }
+}
+@media(max-width: 470px) {
+    .wrap-first {
+        padding-left: 0;
+    }
+    .input-fields {
+        width: 100%;
+    }
+    .contact-textarea {
+        width: 100%;
+    }
+    .contact-button {
+        width: 100%;
+    }
+}
+@media (max-width: 642px) {
+    .main-contact {
+        justify-content: center;
+        align-items: flex-start;
+        padding-left: 15px;
+        width: 100%;
+    }
+    .contact-pic {
+        display: none;
+    }
+}
+
+
