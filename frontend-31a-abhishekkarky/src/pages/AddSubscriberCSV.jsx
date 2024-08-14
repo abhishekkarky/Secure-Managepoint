@@ -18,6 +18,7 @@ const AddSubscriberCSV = () => {
     let activeID = document.getElementById(activePage);
     if (activeID) {
       activeID.classList.add("active");
+      
     }
   })
 
