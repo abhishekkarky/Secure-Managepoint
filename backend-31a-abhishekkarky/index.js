@@ -29,15 +29,18 @@ connectDB();
 const port = process.env.PORT || 443;
 
 // Load SSL certificate and key
-const sslOptions = {
-  key: fs.readFileSync(
-    path.resolve(__dirname, "localhost_ssl/managepoint.key")
-  ),
-  cert: fs.readFileSync(
-    path.resolve(__dirname, "localhost_ssl/managepoint.crt")
-  ),
-  // cert: fs.readFileSync(path.resolve(__dirname, 'path/to/your/server.crt'))
-};
+let sslOptions = {};
+try {
+  sslOptions.key = fs.readFileSync(
+    path.resolve(__dirname, "cert/localhost-key.pem")
+  );
+  sslOptions.cert = fs.readFileSync(
+    path.resolve(__dirname, "cert/managepoint.crt")
+  );
+} catch (error) {
+  console.error("Error reading SSL certificate and key:", error);
+  process.exit(1); // Exit the process if SSL files cannot be loaded
+}
 
 // creating user routes
 app.use("/api/user", require("./routes/userRoutes"));
