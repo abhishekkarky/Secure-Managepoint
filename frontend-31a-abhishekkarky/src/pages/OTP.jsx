@@ -15,7 +15,6 @@ const OTP = () => {
     const [passwordError, setPasswordError] = useState('')
     const [cPasswordError, setCPasswordError] = useState('')
 
-
     const validate = () => {
         let isValid = true;
 
