@@ -1,3 +1,4 @@
+const express = require('express');
 const {
   createUser,
   loginUser,
@@ -9,31 +10,72 @@ const {
   uploadImage,
   getUserById,
   getGrowthRate,
-} = require("../controllers/userControllers");
-const authGuard = require("../middleware/authGuard");
+} = require('../controllers/userControllers');
+const authGuard = require('../middleware/authGuard');
+const upload = require('../middleware/upload');
+const { body, param, validationResult } = require('express-validator');
 
-const upload = require("../middleware/upload");
+const router = express.Router();
 
-const router = require("express").Router();
+// Validation rules
+const userValidationRules = () => [
+  body('fullName').notEmpty().withMessage('Full name is required').trim(),
+  body('email').isEmail().withMessage('Valid email is required').trim(),
+  body('password').notEmpty().withMessage('Password is required'),
+  // Add more validations as needed
+];
 
-router.post("/create", createUser);
+const updateUserValidationRules = () => [
+  body('fullName').optional().trim(),
+  body('email').optional().isEmail().withMessage('Valid email is required').trim(),
+  body('address').optional().trim(),
+  body('number').optional().trim(),
+  // Add more validations as needed
+];
 
-router.post("/login", loginUser);
+// Middleware to handle validation errors
+const validate = (req, res, next) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+  next();
+};
 
-router.put("/editProfile/:id", updateUser);
+// Routes with validation and error handling
+router.post('/create', userValidationRules(), validate, createUser);
 
-router.put("/editPassword/:id", updateUserPassword);
+router.post('/login', userValidationRules(), validate, loginUser);
 
-router.post("/forgot-password", forgotPassword);
+router.put(
+  '/editProfile/:id',
+  authGuard,
+  updateUserValidationRules(),
+  validate,
+  updateUser
+);
 
-router.post("/reset-password", resetPassword);
+router.put('/editPassword/:id', authGuard, updateUserPassword);
 
-router.put("/unsubscribe/:userId/:subscriberId", unsubscribe);
+router.post('/forgot-password', forgotPassword);
 
-router.put("/uploadImage/:id", upload.single("userImage"), uploadImage);
+router.post('/reset-password', resetPassword);
 
-router.get("/getUser/:id", getUserById);
+router.put(
+  '/unsubscribe/:userId/:subscriberId',
+  authGuard,
+  unsubscribe
+);
 
-router.get('/getGrowthRate', authGuard, getGrowthRate),
+router.put(
+  '/uploadImage/:id',
+  authGuard,
+  upload.single('userImage'),
+  uploadImage
+);
+
+router.get('/getUser/:id', authGuard, getUserById);
+
+router.get('/getGrowthRate', authGuard, getGrowthRate);
 
 module.exports = router;
