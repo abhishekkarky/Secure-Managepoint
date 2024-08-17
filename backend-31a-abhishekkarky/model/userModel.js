@@ -10,18 +10,23 @@ const userSchema = mongoose.Schema(
     fullName: {
       type: String,
       required: true,
+      trim: true, // Remove leading and trailing spaces
     },
     email: {
       type: String,
       required: true,
+      trim: true,
+      unique: true, // Ensure unique email addresses
     },
     address: {
       type: String,
       required: false,
+      trim: true,
     },
     number: {
       type: String,
       required: false,
+      trim: true,
     },
     password: {
       type: String,
@@ -36,8 +41,8 @@ const userSchema = mongoose.Schema(
       default: false,
     },
     otpTimestamp: {
-      type: String,
-      default: false,
+      type: Date,
+      default: Date.now, // Store as a date object
       required: false,
     },
     subscribers: [
@@ -54,5 +59,5 @@ const userSchema = mongoose.Schema(
   { timestamps: true }
 );
 
-const users = mongoose.model("users", userSchema);
-module.exports = users;
+const User = mongoose.model("User", userSchema);
+module.exports = User;
