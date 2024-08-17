@@ -35,7 +35,7 @@ try {
     path.resolve(__dirname, "cert/localhost-key.pem")
   );
   sslOptions.cert = fs.readFileSync(
-    path.resolve(__dirname, "cert/managepoint.crt")
+    path.resolve(__dirname, "cert/localhost.pem")
   );
 } catch (error) {
   console.error("Error reading SSL certificate and key:", error);
