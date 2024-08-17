@@ -6,11 +6,11 @@ req_extensions = req_ext
 distinguished_name = dn
 
 [ dn ]
-C = NP
-ST = Bagmati
-L = Kathmandu
-O = Managepoint
-OU = Web
+C = US
+ST = California
+L = San Francisco
+O = My Company
+OU = My Division
 CN = localhost
 
 [ v3_ca ]

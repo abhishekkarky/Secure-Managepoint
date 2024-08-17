@@ -32,10 +32,10 @@ const port = process.env.PORT || 443;
 let sslOptions = {};
 try {
   sslOptions.key = fs.readFileSync(
-    path.resolve(__dirname, "cert/localhost-key.pem")
+    path.resolve(__dirname, "certs/localhost-key.pem")
   );
   sslOptions.cert = fs.readFileSync(
-    path.resolve(__dirname, "cert/localhost.pem")
+    path.resolve(__dirname, "certs/localhost.pem")
   );
 } catch (error) {
   console.error("Error reading SSL certificate and key:", error);
