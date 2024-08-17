@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const Api = axios.create({
-  baseURL: "http://localhost:5500",
+  baseURL: "https://localhost:5500", // Change to https
   withCredentials: true,
   headers: {
     "Content-Type": "application/json",
@@ -9,7 +9,7 @@ const Api = axios.create({
 });
 
 const ApiWithFormData = axios.create({
-  baseURL: "http://localhost:5500",
+  baseURL: "https://localhost:5500", // Change to https
   withCredentials: true,
   headers: {
     "Content-Type": "multipart/form-data",
@@ -138,4 +138,5 @@ export const getBroadcastCountForGraph = () =>
 export const getGrowthRate = () => Api.get("/api/user/getGrowthRate", config);
 
 // export subscribers in csv
-export const exportSubscriberInCSV = () => Api.get('/api/subscriber/exportCSV', config);
+export const exportSubscriberInCSV = () =>
+  Api.get("/api/subscriber/exportCSV", config);
