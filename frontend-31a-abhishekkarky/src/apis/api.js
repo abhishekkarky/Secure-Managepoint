@@ -1,7 +1,8 @@
 import axios from "axios";
 
+// Create Axios instances
 const Api = axios.create({
-  baseURL: "https://localhost:5500", // Change to https
+  baseURL: "https://localhost:5500", // Ensure your backend is using HTTPS
   withCredentials: true,
   headers: {
     "Content-Type": "application/json",
@@ -9,20 +10,29 @@ const Api = axios.create({
 });
 
 const ApiWithFormData = axios.create({
-  baseURL: "https://localhost:5500", // Change to https
+  baseURL: "https://localhost:5500", // Ensure your backend is using HTTPS
   withCredentials: true,
   headers: {
     "Content-Type": "multipart/form-data",
-    authorization: `Bearer ${localStorage.getItem("token")}`,
+    // Token will be set dynamically
   },
 });
 
-// Token
-const config = {
-  headers: {
-    authorization: `Bearer ${localStorage.getItem("token")}`,
-  },
+// Token configuration
+const getAuthToken = () => {
+  return `Bearer ${localStorage.getItem("token")}`;
 };
+
+// Set authorization header dynamically
+const setAuthHeader = (axiosInstance) => {
+  axiosInstance.defaults.headers.common['Authorization'] = getAuthToken();
+};
+
+// Apply token to instances
+setAuthHeader(Api);
+setAuthHeader(ApiWithFormData);
+
+// API Endpoints
 
 // create user api
 export const createUserApi = (data) => Api.post("/api/user/create", data);
@@ -43,72 +53,71 @@ export const editUserPassword = (id, formData) =>
 
 // create new subscriber
 export const createSubscriberApi = (formData) =>
-  Api.post("/api/subscriber/add", formData, config);
+  Api.post("/api/subscriber/add", formData);
 
 // fetch all subscribers
-export const getAllSubscribersApi = () =>
-  Api.get("/api/subscriber/all", config);
+export const getAllSubscribersApi = () => Api.get("/api/subscriber/all");
 
 // fetch total subscriber count
 export const totalSubscriberCountApi = () =>
-  Api.get("/api/subscriber/count", config);
+  Api.get("/api/subscriber/count");
 
 // delete subscriber by id
 export const deleteSubscriberByIdApi = (id) =>
-  Api.delete(`/api/subscriber/delete/${id}`, config);
+  Api.delete(`/api/subscriber/delete/${id}`);
 
 // Get subscriber By Id
 export const getSubscriberByIdApi = (id) =>
-  Api.get(`/api/subscriber/get/${id}`, config);
+  Api.get(`/api/subscriber/get/${id}`);
 
 // Update subscriber by id
 export const updateSubscriberByIdApi = (id, formData) =>
-  Api.put(`/api/subscriber/edit/${id}`, formData, config);
+  Api.put(`/api/subscriber/edit/${id}`, formData);
 
 // Create Group
 export const createGroupApi = (data) =>
-  Api.post("/api/group/add", data, config);
+  Api.post("/api/group/add", data);
 
 // Fetch Group
-export const getAllGroupApi = () => Api.get("/api/group/all", config);
+export const getAllGroupApi = () => Api.get("/api/group/all");
 
 // Fetch Group by Id
-export const getGroupByIdApi = (id) => Api.get(`/api/group/get/${id}`, config);
+export const getGroupByIdApi = (id) => Api.get(`/api/group/get/${id}`);
 
 // Update Group By Id
 export const updateGroupByIdApi = (id, data) =>
-  Api.put(`/api/group/update/${id}`, data, config);
+  Api.put(`/api/group/update/${id}`, data);
 
 // Delete Group by Id
 export const deleteGroupByIdApi = (id) =>
-  Api.delete(`/api/group/delete/${id}`, config);
+  Api.delete(`/api/group/delete/${id}`);
 
 // Create new broadcast
 export const createBroadcastApi = (data) =>
-  Api.post("/api/broadcast/create", data, config);
+  Api.post("/api/broadcast/create", data);
 
 // Fetch All broadcast
-export const getAllBroadcastApi = () => Api.get("/api/broadcast/all", config);
+export const getAllBroadcastApi = () => Api.get("/api/broadcast/all");
 
 // fetch total broadcast count
 export const totalBroadcastCountApi = () =>
-  Api.get("/api/broadcast/count", config);
+  Api.get("/api/broadcast/count");
 
 // Get Single Broadcast
 export const getSingleBroadcastApi = (id) =>
-  Api.get(`/api/broadcast/get/${id}`, config);
+  Api.get(`/api/broadcast/get/${id}`);
 
 // Delete Broadcast
 export const deleteBroadcastByApi = (id) =>
-  Api.delete(`/api/broadcast/delete/${id}`, config);
+  Api.delete(`/api/broadcast/delete/${id}`);
 
 // Update Broadcast
 export const updateBroadcastApi = (id, data) =>
-  Api.put(`/api/broadcast/update/${id}`, data, config);
+  Api.put(`/api/broadcast/update/${id}`, data);
 
 // Add subscriber through CSV
 export const addSubscriberCSVApi = (formData) =>
-  ApiWithFormData.post("/api/subscriber/add-subscribers-csv", formData, config);
+  ApiWithFormData.post("/api/subscriber/add-subscribers-csv", formData);
 
 // Forgot password and send otp Api
 export const sendOTPApi = (formData) =>
@@ -118,25 +127,25 @@ export const sendOTPApi = (formData) =>
 export const resetPasswordApi = (formData) =>
   Api.post("/api/user/reset-password", formData);
 
-// unsubscribed api
+// Unsubscribe api
 export const unsubscribeApi = (userId, subscriberId) =>
   Api.put(`/api/user/unsubscribe/${userId}/${subscriberId}`);
 
-// update user image api
+// Update user image api
 export const updateUserImageApi = (id, formData) =>
   ApiWithFormData.put(`/api/user/uploadImage/${id}`, formData);
 
 // Subscriber count for Graph
 export const getSubscriberCountForGraph = () =>
-  Api.get("/api/subscriber/countForGraph", config);
+  Api.get("/api/subscriber/countForGraph");
 
-// broadcast count for graph
+// Broadcast count for graph
 export const getBroadcastCountForGraph = () =>
-  Api.get("/api/broadcast/countForGraph", config);
+  Api.get("/api/broadcast/countForGraph");
 
-// growth rate
-export const getGrowthRate = () => Api.get("/api/user/getGrowthRate", config);
+// Growth rate
+export const getGrowthRate = () => Api.get("/api/user/getGrowthRate");
 
-// export subscribers in csv
+// Export subscribers in CSV
 export const exportSubscriberInCSV = () =>
-  Api.get("/api/subscriber/exportCSV", config);
+  Api.get("/api/subscriber/exportCSV");
