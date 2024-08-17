@@ -27,11 +27,13 @@ app.use("/uploads", (req, res, next) => {
 connectDB();
 
 const port = process.env.PORT || 443;
+const sslKeyPath = path.resolve(__dirname, process.env.SSL_KEY);
+const sslCertPath = path.resolve(__dirname, process.env.SSL_CRT);
 
 // Load SSL certificate and key
 let sslOptions = {
-  key: fs.readFileSync(process.env.SSL_KEY),
-  cert: fs.readFileSync(process.env.SSL_CERT),
+  key: fs.readFileSync(sslKeyPath),
+  cert: fs.readFileSync(sslCertPath),
 };
 
 app.get("/", (req, res) => {
