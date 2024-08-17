@@ -1,20 +1,38 @@
-const authGuard = require('../middleware/authGuard')
-const broadcastControllers = require('../controllers/broadcastControllers')
+const express = require('express');
+const { check, validationResult } = require('express-validator'); // Add express-validator for validation
+const authGuard = require('../middleware/authGuard');
+const broadcastControllers = require('../controllers/broadcastControllers');
 
-const router = require('express').Router()
+const router = express.Router();
 
-router.post('/create', authGuard, broadcastControllers.createBroadcast)
+// Validation rules
+const broadcastValidationRules = () => [
+  check('title').isString().notEmpty().withMessage('Title is required'),
+  check('content').isString().notEmpty().withMessage('Content is required'),
+];
 
-router.get('/all', authGuard, broadcastControllers.getAllBroadcast)
+// Middleware to validate requests
+const validateRequest = (req, res, next) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+  next();
+};
 
-router.get('/count',authGuard ,broadcastControllers.totalBroadcastCount)
+// Routes with validation and authentication
+router.post('/create', authGuard, broadcastValidationRules(), validateRequest, broadcastControllers.createBroadcast);
 
-router.get('/get/:id', authGuard, broadcastControllers.getSingleBroadcast)
+router.get('/all', authGuard, broadcastControllers.getAllBroadcast);
 
-router.delete('/delete/:id', authGuard, broadcastControllers.deleteBroadcastById)
+router.get('/count', authGuard, broadcastControllers.totalBroadcastCount);
 
-router.put('/update/:id', authGuard, broadcastControllers.updateBroadcastById)
+router.get('/get/:id', authGuard, broadcastControllers.getSingleBroadcast);
 
-router.get('/countForGraph', authGuard, broadcastControllers.broadcastCountForGraph)
+router.delete('/delete/:id', authGuard, broadcastControllers.deleteBroadcastById);
 
-module.exports = router
+router.put('/update/:id', authGuard, broadcastValidationRules(), validateRequest, broadcastControllers.updateBroadcastById);
+
+router.get('/countForGraph', authGuard, broadcastControllers.broadcastCountForGraph);
+
+module.exports = router;

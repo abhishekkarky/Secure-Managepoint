@@ -5,6 +5,8 @@ const dotenv = require("dotenv");
 const connectDB = require("./database/db");
 const https = require("https");
 const fs = require("fs");
+const helmet = require("helmet");
+const rateLimit = require("express-rate-limit");
 
 const app = express();
 
@@ -13,17 +15,29 @@ dotenv.config();
 app.use(express.json({ limit: "40mb" }));
 app.use(express.urlencoded({ limit: "40mb", extended: true }));
 
+// Apply Helmet to set security-related HTTP headers
+app.use(helmet());
+
+// Rate limiting to prevent abuse of API
+const limiter = rateLimit({
+  windowMs: 10 * 60 * 1000, // 10 minutes
+  max: 100, // Limit each IP to 100 requests per windowMs
+  message: "Too many requests from this IP, please try again later.",
+});
+app.use(limiter);
+
+// CORS configuration
 const corsPolicy = {
-  origin: true,
+  origin: process.env.CORS_ORIGIN || "*", // Adjust CORS origin policy as needed
   credentials: true,
-  optionSuccessStatus: 200,
+  optionsSuccessStatus: 200,
 };
 app.use(cors(corsPolicy));
 
-app.use("/uploads", (req, res, next) => {
-  express.static(path.resolve(__dirname, "uploads"))(req, res, next);
-});
+// Serve static files securely
+app.use("/uploads", express.static(path.resolve(__dirname, "uploads")));
 
+// Connect to database
 connectDB();
 
 const port = process.env.PORT || 443;
@@ -36,20 +50,21 @@ let sslOptions = {
   cert: fs.readFileSync(sslCertPath),
 };
 
+// Define routes
 app.get("/", (req, res) => {
   res.send("Hello HTTPS!");
 });
 
-// creating user routes
+// User routes
 app.use("/api/user", require("./routes/userRoutes"));
 
-// creating subscriber routes
+// Subscriber routes
 app.use("/api/subscriber", require("./routes/subscriberRoutes"));
 
-// Creating group routes
+// Group routes
 app.use("/api/group", require("./routes/groupRoutes"));
 
-// Creating broadcast routes
+// Broadcast routes
 app.use("/api/broadcast", require("./routes/broadcastRoutes"));
 
 // Create HTTPS server
