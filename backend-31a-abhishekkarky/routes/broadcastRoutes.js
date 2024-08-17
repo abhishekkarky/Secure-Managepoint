@@ -1,18 +1,20 @@
-const express = require("express");
-const { check, validationResult } = require("express-validator"); // Add express-validator for validation
-const authGuard = require("../middleware/authGuard");
-const broadcastControllers = require("../controllers/broadcastControllers");
+const express = require('express');
+const authGuard = require('../middleware/authGuard');
+const broadcastControllers = require('../controllers/broadcastControllers');
+const { body, param, validationResult } = require('express-validator');
 
 const router = express.Router();
 
-// Validation rules
+// Validation rules for creating and updating broadcast
 const broadcastValidationRules = () => [
-  check("title").isString().notEmpty().withMessage("Title is required"),
-  check("content").isString().notEmpty().withMessage("Content is required"),
+  body('broadcastTitle').notEmpty().withMessage('Broadcast title is required'),
+  body('broadcastTo').notEmpty().withMessage('Broadcast target is required'),
+  body('broadcastDescription').notEmpty().withMessage('Broadcast description is required'),
+  // Add more validations as needed
 ];
 
-// Middleware to validate requests
-const validateRequest = (req, res, next) => {
+// Middleware to handle validation errors
+const validate = (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
@@ -20,39 +22,44 @@ const validateRequest = (req, res, next) => {
   next();
 };
 
-// Routes with validation and authentication
+// Routes with validation and error handling
 router.post(
-  "/create",
+  '/create',
   authGuard,
   broadcastValidationRules(),
-  validateRequest,
+  validate,
   broadcastControllers.createBroadcast
 );
 
-router.get("/all", authGuard, broadcastControllers.getAllBroadcast);
+router.get('/all', authGuard, broadcastControllers.getAllBroadcast);
 
-router.get("/count", authGuard, broadcastControllers.totalBroadcastCount);
+router.get('/count', authGuard, broadcastControllers.totalBroadcastCount);
 
-router.get("/get/:id", authGuard, broadcastControllers.getSingleBroadcast);
+router.get(
+  '/get/:id',
+  authGuard,
+  param('id').isMongoId().withMessage('Invalid broadcast ID'),
+  validate,
+  broadcastControllers.getSingleBroadcast
+);
 
 router.delete(
-  "/delete/:id",
+  '/delete/:id',
   authGuard,
+  param('id').isMongoId().withMessage('Invalid broadcast ID'),
+  validate,
   broadcastControllers.deleteBroadcastById
 );
 
 router.put(
-  "/update/:id",
+  '/update/:id',
   authGuard,
+  param('id').isMongoId().withMessage('Invalid broadcast ID'),
   broadcastValidationRules(),
-  validateRequest,
+  validate,
   broadcastControllers.updateBroadcastById
 );
 
-router.get(
-  "/countForGraph",
-  authGuard,
-  broadcastControllers.broadcastCountForGraph
-);
+router.get('/countForGraph', authGuard, broadcastControllers.broadcastCountForGraph);
 
 module.exports = router;
