@@ -92,7 +92,7 @@ const createBroadcast = async (req, res) => {
       const template = fs.readFileSync(templatePath, "utf-8");
 
       for (const email of emails) {
-        const unsubscribeLink = `http://localhost:3000/unsubscribe/${userDetail.id}/${email._id}`;
+        const unsubscribeLink = `https://localhost:3000/unsubscribe/${userDetail.id}/${email._id}`;
         const html = template
           .replace("{broadcastTitle}", broadcastTitle)
           .replace("{broadcastDescription}", broadcastDescription)
@@ -135,7 +135,7 @@ const createBroadcast = async (req, res) => {
             const template = fs.readFileSync(templatePath, "utf-8");
 
             for (const email of emails) {
-              const unsubscribeLink = `http://localhost:3000/unsubscribe/${userDetail.id}/${email._id}`;
+              const unsubscribeLink = `https://localhost:3000/unsubscribe/${userDetail.id}/${email._id}`;
               const html = template
                 .replace("{broadcastTitle}", broadcastTitle)
                 .replace("{broadcastDescription}", broadcastDescription)
@@ -357,7 +357,7 @@ const updateBroadcastById = async (req, res) => {
       const template = fs.readFileSync(templatePath, "utf-8");
 
       for (const email of emails) {
-        const unsubscribeLink = `http://localhost:3000/unsubscribe/${userDetail.id}/${email._id}`;
+        const unsubscribeLink = `https://localhost:3000/unsubscribe/${userDetail.id}/${email._id}`;
         const html = template
           .replace("{broadcastTitle}", broadcastTitle)
           .replace("{broadcastDescription}", broadcastDescription)

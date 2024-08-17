@@ -446,7 +446,7 @@ const get_user_by_id = {
     "__v": 0,
     "address": "Butwal-6, Traffic Chowk",
     "number": "9822797614",
-    "userImageUrl": "http://localhost:5500/uploads/image_picker_379171CA-6F83-4FE9-B19F-5A13FA3B5F4E-5766-0000036214835107.jpg"
+    "userImageUrl": "https://localhost:5500/uploads/image_picker_379171CA-6F83-4FE9-B19F-5A13FA3B5F4E-5766-0000036214835107.jpg"
   }
 
 export default get_user_by_id;

@@ -1,5 +1,6 @@
 import axios from "axios";
 import add_group_mock from "../../mock/add_group_mock";
+import add_subscriber_mock from "../../mock/add_subscriber_mock";
 import all_broadcast_mock from "../../mock/all_broadcast_mock";
 import all_subscriber_mock from "../../mock/all_subscriber_mock";
 import create_broadcast_mock from "../../mock/create_broadcast_mock";
@@ -8,14 +9,12 @@ import get_subscriber_by_id from "../../mock/get_subscriber_by_id_mock";
 import login_mock from "../../mock/login_mock";
 import register_mock from "../../mock/register_mock";
 import get_user_by_id from "../../mock/user_by_id_mock";
-import add_subscriber_mock from "../../mock/add_subscriber_mock";
 
-const baseURL = "http://localhost:5500";
+const baseURL = "https://localhost:5500";
 let token =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1ZGRhMzBmNzQzNDdlMTgyNDI0NzBlMSIsImlhdCI6MTcwOTM5NDE2MX0.zRmIpl79WHMWmm5biQ-eEnquB6sq6OHsGsMzdLyyqWs";
 
 describe("Frontend Testing", () => {
-  
   it("Login", async () => {
     const response = await axios.post(`${baseURL}/api/user/login`, login_mock);
     expect(response.status).toEqual(200);
@@ -37,7 +36,11 @@ describe("Frontend Testing", () => {
         Authorization: `Bearer ${token}`,
       },
     };
-    const response = await axios.post(`${baseURL}/api/subscriber/add`, add_subscriber_mock, config);
+    const response = await axios.post(
+      `${baseURL}/api/subscriber/add`,
+      add_subscriber_mock,
+      config
+    );
     expect(response.status).toEqual(200);
     expect(response.data.success).toEqual(true);
   });
