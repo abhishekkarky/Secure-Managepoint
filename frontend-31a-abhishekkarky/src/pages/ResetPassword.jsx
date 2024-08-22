@@ -4,6 +4,8 @@ import { Link, useNavigate } from 'react-router-dom'
 import { sendOTPApi } from '../apis/api'
 import '../styles/Login.css'
 
+const DOMPurify = require('dompurify')
+
 const ResetPassword = () => {
     const navigate = useNavigate();
     const [email, setEmail] = useState('')
