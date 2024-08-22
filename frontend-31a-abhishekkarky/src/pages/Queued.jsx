@@ -1,3 +1,4 @@
+import DOMPurify from 'dompurify';
 import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import ReactPaginate from 'react-paginate';
@@ -6,7 +7,6 @@ import { deleteBroadcastByApi, getAllBroadcastApi } from '../apis/api';
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
 import '../styles/Broadcast.css';
-import DOMPurify from 'dompurify';
 const Queued = () => {
   const [broadcastAll, setBroadcastAll] = useState([]);
   const [broadcastDraft, setBroadcastDraft] = useState([]);
@@ -54,13 +54,16 @@ const Queued = () => {
       setBroadcastQueued(res.data.queued);
     });
   }, [isUpdated]);
-
   useEffect(() => {
+    // Sanitize the search query
+    const sanitizedQuery = DOMPurify.sanitize(searchQuery);
+
     const filtered = broadcastQueued.filter((data) =>
-      data.broadcastTitle.toLowerCase().includes(searchQuery.toLowerCase())
+      data.broadcastTitle.toLowerCase().includes(sanitizedQuery.toLowerCase())
     );
     setFilteredSubscribers(filtered);
   }, [searchQuery, broadcastQueued]);
+
 
   const pageCount = Math.ceil(filteredSubscribers.length / groupsPerPage);
 
