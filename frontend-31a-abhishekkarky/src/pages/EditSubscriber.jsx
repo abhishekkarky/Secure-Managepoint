@@ -4,6 +4,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import { getSubscriberByIdApi, updateSubscriberByIdApi } from '../apis/api'
 import Footer from '../components/Footer'
 import Navbar from '../components/Navbar'
+import DOMPurify from 'dompurify';
 
 const EditSubscriber = () => {
 
