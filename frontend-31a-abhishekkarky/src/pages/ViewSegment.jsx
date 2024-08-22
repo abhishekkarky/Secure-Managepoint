@@ -50,11 +50,14 @@ const ViewSegment = () => {
   const pageCount = Math.ceil(filteredSubscribers.length / groupsPerPage);
 
   const handleDelete = () => {
-    const id = selectedSegment._id;
-    deleteGroupByIdApi(id)
+    if (!selectedSegment || !selectedSegment._id) return;
+
+    const sanitizedId = encodeURIComponent(selectedSegment._id);
+
+    deleteGroupByIdApi(sanitizedId)
       .then((res) => {
         if (res.data.success) {
-          setIsUpdated(v => !v)
+          setIsUpdated(v => !v);
           toast.success(res.data.message);
         } else {
           toast.error(res.data.message);
@@ -63,8 +66,11 @@ const ViewSegment = () => {
       .catch((error) => {
         console.log('Error deleting Group:', error);
       });
+
     closeDeleteModal();
   };
+
+
 
   const openDeleteModal = (data) => {
     setIsDeleteModalOpen(true);
