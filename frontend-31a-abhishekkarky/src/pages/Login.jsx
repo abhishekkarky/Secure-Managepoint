@@ -3,6 +3,7 @@ import { toast } from 'react-hot-toast'
 import { Link } from 'react-router-dom'
 import { loginUserApi } from '../apis/api'
 import '../styles/Login.css'
+import DOMPurify from 'dompurify'
 
 const Login = () => {
   const [email, setEmail] = useState('')
