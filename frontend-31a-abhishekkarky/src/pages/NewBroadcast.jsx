@@ -10,6 +10,7 @@ import { createBroadcastApi, getAllGroupApi, getAllSubscribersApi } from '../api
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
 import '../styles/NewBroadcast.css';
+import DOMPurify from 'dompurify';
 
 const NewBroadcast = () => {
     const options = {
