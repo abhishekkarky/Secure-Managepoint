@@ -64,12 +64,11 @@ const Subscriber = () => {
   }, [searchQuery, subscribers]);
 
   const pageCount = Math.ceil(filteredSubscribers.length / subscribersPerPage);
-
   const displaySubscribers = filteredSubscribers
     .slice(pageNumber * subscribersPerPage, (pageNumber + 1) * subscribersPerPage)
     .map((data) => (
       <tr key={data._id}>
-        <td>{data.fullName}</td>
+        <td>{DOMPurify.sanitize(data.fullName)}</td>
         <td>{new Date(data.date).toLocaleDateString()}</td>
         <td>
           {data.isSubscribed ? (
@@ -80,6 +79,8 @@ const Subscriber = () => {
         </td>
       </tr>
     ));
+
+
 
   const handlePageClick = (data) => {
     setPageNumber(data.selected);
