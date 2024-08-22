@@ -6,7 +6,6 @@ import { deleteBroadcastByApi, getAllBroadcastApi } from '../apis/api';
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
 import '../styles/Broadcast.css';
-import DOMPurify from 'dompurify'; 
 const Broadcast = () => {
   const [broadcastAll, setBroadcastAll] = useState([]);
   const [broadcastDraft, setBroadcastDraft] = useState([]);
@@ -102,9 +101,9 @@ const Broadcast = () => {
       <div className="broadcast-container" key={data._id}>
         <div className="b-container-left">
           <h3>
-            {data.broadcastTitle}{' '}
+            {DOMPurify.sanitize(data.broadcastTitle)}{' '}
             {data.broadcastVisibility && (
-              <span className='title-span'>{data.broadcastVisibility}</span>
+              <span className='title-span'>{DOMPurify.sanitize(data.broadcastVisibility)}</span>
             )}
           </h3>
           <div className="b-left-content">
@@ -210,17 +209,13 @@ const Broadcast = () => {
           </Link>
         </div>
         <div className="main-bottom">
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              setSearchQuery(e.target.query.value);
-            }}
-            className='search-form'>
+          <form onSubmit={(e) => e.preventDefault()} className='search-form'>
             <input
               className='search-input'
               type="text"
               placeholder="Search All Broadcast"
-              name="query"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
             />
             <button className='search-button' type="submit">
               Search
