@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import toast from 'react-hot-toast';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { resetPasswordApi } from '../apis/api';
+// DOMPurify
+import DOMPurify from 'dompurify';
 
 const OTP = () => {
     const navigate = useNavigate();
