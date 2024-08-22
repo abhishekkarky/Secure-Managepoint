@@ -6,7 +6,7 @@ import { createGroupApi, getAllSubscribersApi } from '../apis/api'
 import Footer from '../components/Footer'
 import Navbar from '../components/Navbar'
 import '../styles/Profile.css'
-
+import DOMPurify from 'dompurify';
 const CreateTag = () => {
 
     const [subscribers, setSubscribers] = useState([])
