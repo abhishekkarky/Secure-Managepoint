@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react'
-import toast from 'react-hot-toast'
-import { Link, useParams } from 'react-router-dom'
-import Select from 'react-select'
-import { getAllSubscribersApi, getGroupByIdApi, updateGroupByIdApi } from '../apis/api'
-import Footer from '../components/Footer'
-import Navbar from '../components/Navbar'
-import DOMPurify from 'dompurify'
+import DOMPurify from 'dompurify';
+import React, { useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
+import { Link, useParams } from 'react-router-dom';
+import Select from 'react-select';
+import { getAllSubscribersApi, getGroupByIdApi, updateGroupByIdApi } from '../apis/api';
+import Footer from '../components/Footer';
+import Navbar from '../components/Navbar';
 
 const EditTag = () => {
     const { id } = useParams();
@@ -23,32 +23,32 @@ const EditTag = () => {
         if (activeID) {
             activeID.classList.add("active");
         }
-    })
+    }, [activePage]);
 
     useEffect(() => {
         getAllSubscribersApi()
             .then((res) => {
-                let temp = res.data.subscribers.map((subscriber) => ({
+                const sanitizedSubscribers = res.data.subscribers.map((subscriber) => ({
                     value: subscriber._id,
-                    label: subscriber.fullName
-                }))
-                setSubscribers(temp);
+                    label: DOMPurify.sanitize(subscriber.fullName),
+                }));
+                setSubscribers(sanitizedSubscribers);
             })
             .catch((error) => {
                 console.error('Error fetching subscribers:', error);
             });
-    }, [])
+    }, []);
 
     useEffect(() => {
         getGroupByIdApi(id)
             .then((res) => {
                 console.log(res.data);
-                setName(res.data.group.name);
-                let temp = res.data.group.subscribers.map((subscriber) => ({
+                setName(DOMPurify.sanitize(res.data.group.name));
+                const sanitizedSubscribers = res.data.group.subscribers.map((subscriber) => ({
                     value: subscriber._id,
-                    label: subscriber.fullName,
+                    label: DOMPurify.sanitize(subscriber.fullName),
                 }));
-                setSelectedSubscribers(temp);
+                setSelectedSubscribers(sanitizedSubscribers);
             })
             .catch((error) => {
                 console.error('Error fetching group:', error);
@@ -59,9 +59,11 @@ const EditTag = () => {
         e.preventDefault();
         console.log(name, selectedSubscribers);
 
+        // Sanitize input values
+        const sanitizedName = DOMPurify.sanitize(name);
         const subscriberValues = selectedSubscribers.map((data) => data.value);
         const data = {
-            name: name,
+            name: sanitizedName,
             subscribers: subscriberValues,
         };
 
@@ -82,7 +84,8 @@ const EditTag = () => {
                     console.log(err.message);
                 }
             });
-    }
+    };
+
     return (
         <>
             <Navbar />
@@ -98,7 +101,7 @@ const EditTag = () => {
                         <i className="fa-solid fa-plus"></i> Create Segment
                     </Link>
                     <Link to="/viewSegment">
-                        <i className="fa-solid fa-user-group"></i> View All Segment
+                        <i className="fa-solid fa-user-group"></i> View All Segments
                     </Link>
                 </div>
                 <form className="profile-main-right">
@@ -110,7 +113,7 @@ const EditTag = () => {
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                         type="text"
-                        placeholder="Edit Segment's name"
+                        placeholder="Edit Tag's name"
                     />
                     <label>Subscribers</label>
                     <Select
@@ -119,7 +122,6 @@ const EditTag = () => {
                         value={selectedSubscribers}
                         onChange={setSelectedSubscribers}
                         options={subscribers}
-                        defaultValue={subscribers}
                     />
                     <button type="submit" onClick={handleSubmit}>
                         Save Changes
@@ -128,7 +130,7 @@ const EditTag = () => {
             </main>
             <Footer />
         </>
-    )
-}
+    );
+};
 
-export default EditTag
+export default EditTag;
