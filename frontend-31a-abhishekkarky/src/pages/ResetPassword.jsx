@@ -1,60 +1,63 @@
-import React, { useState } from 'react'
-import toast from 'react-hot-toast'
-import { Link, useNavigate } from 'react-router-dom'
-import { sendOTPApi } from '../apis/api'
-import '../styles/Login.css'
-
-const DOMPurify = require('dompurify')
+import DOMPurify from 'dompurify';
+import React, { useState } from 'react';
+import toast from 'react-hot-toast';
+import { Link, useNavigate } from 'react-router-dom';
+import { sendOTPApi } from '../apis/api';
+import '../styles/Login.css';
 
 const ResetPassword = () => {
     const navigate = useNavigate();
-    const [email, setEmail] = useState('')
-    const [emailError, setEmailError] = useState('')
+    const [email, setEmail] = useState('');
+    const [emailError, setEmailError] = useState('');
 
     const validate = () => {
-        let isValid = true
+        let isValid = true;
 
-        setEmailError('')
+        setEmailError('');
 
         if (email.trim() === '') {
-            setEmailError('Email is required')
-            isValid = false
+            setEmailError('Email is required');
+            isValid = false;
         } else if (!/^\S+@\S+\.\S+$/.test(email)) {
             setEmailError('Please provide valid email address');
             isValid = false;
         }
-        return isValid
-    }
+        return isValid;
+    };
 
     const handleSubmitOTP = (e) => {
         e.preventDefault();
 
-        const isValid = validate()
+        // Sanitize email
+        const sanitizedEmail = DOMPurify.sanitize(email);
+
+        const isValid = validate();
         if (!isValid) {
-            return
+            return;
         }
 
-        const loadingToast = toast.loading("Sending OTP...")
+        const loadingToast = toast.loading('Sending OTP...');
         const formData = new FormData();
-        formData.append("email", email);
+        formData.append('email', sanitizedEmail);
         sendOTPApi(formData).then((res) => {
-            if (res.data.success == false) {
+            if (res.data.success === false) {
                 toast.error(res.data.message);
             } else {
-                toast.dismiss(loadingToast)
+                toast.dismiss(loadingToast);
                 toast.success(res.data.message);
-                navigate(`/otp?email=${email}`)
+                navigate(`/otp?email=${sanitizedEmail}`);
             }
         }).catch((err) => {
             if (err.response && err.response.status === 403) {
-                toast.dismiss(loadingToast)
+                toast.dismiss(loadingToast);
                 toast.error(err.response.data.message);
             } else {
                 toast.error('Something went wrong');
                 console.log(err.message);
             }
-        })
-    }
+        });
+    };
+
     return (
         <>
             <br />
@@ -71,18 +74,30 @@ const ResetPassword = () => {
                     <br />
                     <h2>Forgot your password 😭</h2>
                     <br />
-                    <p>Don't worry we got you covered !</p>
+                    <p>Don't worry we got you covered!</p>
                     <br />
                     <br />
                     <form action="">
                         <label>Email address</label>
-                        <input onChange={(e) => setEmail(e.target.value)} type="email" placeholder="jenniferlawrence@gmail.com" />
-                        {
-                            emailError && <p className='mt-2 text-[12px]' style={{ color: "#dc3545" }}>{emailError}</p>
-                        }
+                        <input
+                            onChange={(e) => setEmail(e.target.value)}
+                            type="email"
+                            placeholder="jenniferlawrence@gmail.com"
+                        />
+                        {emailError && (
+                            <p className='mt-2 text-[12px]' style={{ color: "#dc3545" }}>
+                                {emailError}
+                            </p>
+                        )}
                         <br />
                         <br />
-                        <button className="login-button" type="submit" onClick={handleSubmitOTP}>Send OTP</button>
+                        <button
+                            className="login-button"
+                            type="submit"
+                            onClick={handleSubmitOTP}
+                        >
+                            Send OTP
+                        </button>
                         <div className="row-content">
                             <Link to="/login">Remember your password?</Link>
                         </div>
@@ -95,7 +110,7 @@ const ResetPassword = () => {
                 </div>
             </main>
         </>
-    )
-}
+    );
+};
 
-export default ResetPassword
+export default ResetPassword;
