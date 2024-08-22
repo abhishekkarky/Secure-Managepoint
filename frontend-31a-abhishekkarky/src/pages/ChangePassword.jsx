@@ -11,53 +11,63 @@ const ChangePassword = () => {
     const user = JSON.parse(localStorage.getItem('user'));
     const navigate = useNavigate();
 
-    useEffect(() => {
-        setCurrentPassword(user.password);
-    }, [id, user.password]);
-
     const [currentPassword, setCurrentPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [confirmNewPassword, setConfirmNewPassword] = useState('');
     const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
 
+    // Cleanup and reset form fields when component unmounts
+    useEffect(() => {
+        return () => {
+            setCurrentPassword('');
+            setNewPassword('');
+            setConfirmNewPassword('');
+        };
+    }, []);
+
+    const sanitizeInput = (input) => {
+        // Simple sanitation example: remove any HTML tags from input
+        return input.replace(/<\/?[^>]+(>|$)/g, "");
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (newPassword !== confirmNewPassword) {
-            toast.error('Please confirm your new password');
+        // Sanitize user inputs
+        const sanitizedCurrentPassword = sanitizeInput(currentPassword);
+        const sanitizedNewPassword = sanitizeInput(newPassword);
+        const sanitizedConfirmNewPassword = sanitizeInput(confirmNewPassword);
+
+        if (sanitizedNewPassword !== sanitizedConfirmNewPassword) {
+            toast.error('Passwords do not match');
             return;
         }
 
         try {
             const formData = new FormData();
-            formData.append('currentPassword', currentPassword);
-            formData.append('newPassword', newPassword);
+            formData.append('currentPassword', sanitizedCurrentPassword);
+            formData.append('newPassword', sanitizedNewPassword);
 
-            editUserPassword(id, formData).then((res) => {
-                if (res.data.success == true) {
-                    toast.success(res.data.message)
-                }
-                else {
-                    toast.error(res.data.message)
-                }
-            }).catch(err => {
-                if (err.response && err.response.status === 403) {
-                    toast.error(err.response.data.message);
-                } else {
-                    toast.error('Something went wrong');
-                    console.log(err.message);
-                }
-            })
-        } catch (error) {
-            console.log('Error');
+            const response = await editUserPassword(id, formData);
+            if (response.data.success) {
+                toast.success(response.data.message);
+                navigate('/profile'); // Redirect to profile or another appropriate page
+            } else {
+                toast.error(response.data.message);
+            }
+        } catch (err) {
+            if (err.response && err.response.status === 403) {
+                toast.error(err.response.data.message);
+            } else {
+                toast.error('Something went wrong');
+                console.error(err.message);
+            }
         }
     };
 
-
-    const handleLogout = (e) => {
+    const handleLogout = () => {
         localStorage.clear();
-        navigate('/')
+        navigate('/');
         toast('See you soon! Bye', {
             icon: '👋',
         });
