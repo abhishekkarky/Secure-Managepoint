@@ -1,3 +1,4 @@
+import DOMPurify from 'dompurify';
 import React, { useEffect, useState } from 'react';
 import ReactPaginate from 'react-paginate';
 import { Link } from 'react-router-dom';
@@ -5,7 +6,6 @@ import { exportSubscriberInCSV, getAllSubscribersApi, totalSubscriberCountApi } 
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
 import '../styles/Subscriber.css';
-import DOMPurify from 'dompurify';
 
 const Subscriber = () => {
   const user = JSON.parse(localStorage.getItem("user"));
@@ -18,16 +18,16 @@ const Subscriber = () => {
   const subscribersPerPage = 10;
   const [activePage] = useState('subscribers');
 
-    useEffect(() => {
-        let listGroupItem = Array.from(document.getElementsByClassName("list-group-item"));
-        listGroupItem.forEach(i => {
-            i.classList.remove("active");
-        });
-        let activeID = document.getElementById(activePage);
-        if (activeID) {
-            activeID.classList.add("active");
-        }
-    })
+  useEffect(() => {
+    let listGroupItem = Array.from(document.getElementsByClassName("list-group-item"));
+    listGroupItem.forEach(i => {
+      i.classList.remove("active");
+    });
+    let activeID = document.getElementById(activePage);
+    if (activeID) {
+      activeID.classList.add("active");
+    }
+  })
 
   useEffect(() => {
     getAllSubscribersApi()
@@ -46,6 +46,11 @@ const Subscriber = () => {
         console.error('Error fetching total subscriber count:', error);
       });
   }, []);
+  const handleSearchQuery = (e) => {
+    e.preventDefault();
+    const sanitizedQuery = DOMPurify.sanitize(e.target.query.value);
+    setSearchQuery(sanitizedQuery);
+  };
 
   useEffect(() => {
     const filtered = subscribers.filter((subscriber) =>
