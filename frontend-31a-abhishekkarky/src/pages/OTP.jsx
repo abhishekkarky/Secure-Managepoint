@@ -17,6 +17,10 @@ const OTP = () => {
     const [passwordError, setPasswordError] = useState('')
     const [cPasswordError, setCPasswordError] = useState('')
 
+    const sanitizeInput = (input) => {
+        return DOMPurify.sanitize(input);
+    };
+
     const validate = () => {
         let isValid = true;
 
@@ -24,54 +28,60 @@ const OTP = () => {
         setPasswordError('');
         setCPasswordError('');
 
-        if (otp.trim() === '') {
+        const sanitizedOtp = sanitizeInput(otp);
+        const sanitizedNewPassword = sanitizeInput(newPassword);
+        const sanitizedConfirmNewPassword = sanitizeInput(confirmNewPassword);
+
+        if (sanitizedOtp.trim() === '') {
             setOtpError('OTP is required');
             isValid = false;
-        } else if (otp.length !== 4) {
+        } else if (sanitizedOtp.length !== 4) {
             setOtpError('OTP must be of 4 digits');
             isValid = false;
         }
-        if (newPassword.trim() === '') {
+        if (sanitizedNewPassword.trim() === '') {
             setPasswordError('Password is required');
             isValid = false;
-        } else if (newPassword.length < 8 || newPassword.length > 15) {
+        } else if (sanitizedNewPassword.length < 8 || sanitizedNewPassword.length > 15) {
             setPasswordError('Password must be between 8 and 15 characters');
             isValid = false;
         }
-        if (confirmNewPassword.trim() === '') {
+        if (sanitizedConfirmNewPassword.trim() === '') {
             setCPasswordError("Confirm password is required");
             isValid = false;
-        } else if (confirmNewPassword.length < 8 || confirmNewPassword.length > 15) {
+        } else if (sanitizedConfirmNewPassword.length < 8 || sanitizedConfirmNewPassword.length > 15) {
             setCPasswordError('Password must be between 8 and 15 characters');
             isValid = false;
-        } else if (newPassword !== confirmNewPassword) {
-            setCPasswordError('Password do not match');
+        } else if (sanitizedNewPassword !== sanitizedConfirmNewPassword) {
+            setCPasswordError('Passwords do not match');
             isValid = false;
         }
         return isValid;
-    }
+    };
 
 
     const handleChangePassword = (e) => {
         e.preventDefault();
 
-        const isValid = validate()
+        const isValid = validate();
         if (!isValid) {
-            return
+            return;
         }
 
-        console.log(email, otp, newPassword)
+        const sanitizedOtp = sanitizeInput(otp);
+        const sanitizedNewPassword = sanitizeInput(newPassword);
+
         const formData = new FormData();
-        formData.append("email", email)
-        formData.append("otp", otp)
-        formData.append("newPassword", newPassword)
+        formData.append("email", email);
+        formData.append("otp", sanitizedOtp);
+        formData.append("newPassword", sanitizedNewPassword);
 
         resetPasswordApi(formData).then((res) => {
-            if (res.data.success == false) {
+            if (!res.data.success) {
                 toast.error(res.data.message);
             } else {
                 toast.success(res.data.message);
-                navigate('/login')
+                navigate('/login');
             }
         }).catch((err) => {
             if (err.response && err.response.status === 403) {
@@ -80,8 +90,9 @@ const OTP = () => {
                 toast.error('Something went wrong');
                 console.log(err.message);
             }
-        })
+        });
     };
+
 
     return (
         <>
