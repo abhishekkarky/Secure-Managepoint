@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
+import ReactPaginate from 'react-paginate';
 import { Link } from 'react-router-dom';
+import { deleteGroupByIdApi, getAllGroupApi } from '../apis/api';
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
-import ReactPaginate from 'react-paginate';
-import { deleteGroupByIdApi, getAllGroupApi } from '../apis/api';
-import toast from 'react-hot-toast';
-
 const ViewTag = () => {
   const [group, setGroup] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
@@ -17,16 +16,16 @@ const ViewTag = () => {
   const [selectedGroup, setSelectedGroup] = useState(null);
   const [activePage] = useState('subscribers');
 
-    useEffect(() => {
-        let listGroupItem = Array.from(document.getElementsByClassName("list-group-item"));
-        listGroupItem.forEach(i => {
-            i.classList.remove("active");
-        });
-        let activeID = document.getElementById(activePage);
-        if (activeID) {
-            activeID.classList.add("active");
-        }
-    })
+  useEffect(() => {
+    let listGroupItem = Array.from(document.getElementsByClassName("list-group-item"));
+    listGroupItem.forEach(i => {
+      i.classList.remove("active");
+    });
+    let activeID = document.getElementById(activePage);
+    if (activeID) {
+      activeID.classList.add("active");
+    }
+  })
 
   useEffect(() => {
     // Fetch all groups
