@@ -1,3 +1,4 @@
+import DOMPurify from 'dompurify';
 import React, { useEffect, useState } from 'react';
 import FroalaEditor from 'react-froala-wysiwyg';
 import toast from 'react-hot-toast';
@@ -6,7 +7,6 @@ import Select from 'react-select';
 import { createBroadcastApi, getAllGroupApi, getAllSubscribersApi, getSingleBroadcastApi, updateBroadcastApi } from '../apis/api';
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
-import DOMPurify from 'dompurify';
 
 const EditBroadcast = () => {
     const { id } = useParams();
@@ -114,32 +114,31 @@ const EditBroadcast = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const loadingToast = toast.loading('Broadcasting.....')
+        const loadingToast = toast.loading('Broadcasting.....');
+
+        const sanitizedTitle = DOMPurify.sanitize(broadcastTitle);
+        const sanitizedDescription = DOMPurify.sanitize(broadcastDescription);
 
         const requestBody = {
-            broadcastTitle,
+            broadcastTitle: sanitizedTitle,
             broadcastTo,
             broadcastTime,
-            broadcastDescription,
+            broadcastDescription: sanitizedDescription,
         };
 
         switch (selectedOption) {
             case 'Tag':
-                requestBody.broadcastGroup = broadcastGroup.value;
+                requestBody.broadcastGroup = broadcastGroup.map(group => group.value);
                 break;
             case 'Segment':
-                requestBody.broadcastGroup = broadcastGroup.value;
+                requestBody.broadcastGroup = broadcastGroup.map(group => group.value);
                 break;
             case 'Individual':
-                const subscriberValue = subscriber.map((data) => {
-                    return data.value;
-                });
+                const subscriberValue = subscriber.map((data) => data.value);
                 requestBody.sendTo = subscriberValue;
                 break;
             case 'Subscribers':
-                const value = allSubscribers.map((data) => {
-                    return data.value;
-                });
+                const value = allSubscribers.map((data) => data.value);
                 requestBody.sendTo = value;
                 requestBody.broadcastVisibility = "Public";
                 break;
@@ -160,10 +159,10 @@ const EditBroadcast = () => {
         createBroadcastApi(requestBody)
             .then((res) => {
                 if (res.data.success === false) {
-                    toast.dismiss(loadingToast)
+                    toast.dismiss(loadingToast);
                     toast.error(res.data.message);
                 } else {
-                    toast.dismiss(loadingToast)
+                    toast.dismiss(loadingToast);
                     toast.success(res.data.message);
                     navigate('/broadcast');
                 }
