@@ -6,6 +6,8 @@ import { deleteBroadcastByApi, getAllBroadcastApi } from '../apis/api';
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
 import '../styles/Broadcast.css';
+import DOMPurify from 'dompurify';
+
 const Broadcast = () => {
   const [broadcastAll, setBroadcastAll] = useState([]);
   const [broadcastDraft, setBroadcastDraft] = useState([]);
