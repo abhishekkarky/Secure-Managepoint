@@ -59,11 +59,13 @@ const Completed = () => {
 
 
   useEffect(() => {
+    const cleanSearchQuery = DOMPurify.sanitize(searchQuery); // Sanitize the search query
     const filtered = broadcastAll.filter((data) =>
-      data.broadcastTitle.toLowerCase().includes(searchQuery.toLowerCase())
+      data.broadcastTitle.toLowerCase().includes(cleanSearchQuery.toLowerCase())
     );
     setFilteredSubscribers(filtered);
   }, [searchQuery, broadcastAll]);
+
 
   const pageCount = Math.ceil(filteredSubscribers.length / groupsPerPage);
 
