@@ -1,19 +1,20 @@
 import { LinearProgress } from '@mui/material'
+import DOMPurify from 'dompurify'
 import React, { useEffect, useState } from 'react'
+import FroalaEditorView from 'react-froala-wysiwyg/FroalaEditorView'
 import { Link, useParams } from 'react-router-dom'
+import { getSingleBroadcastApi, totalSubscriberCountApi } from '../apis/api'
 import Footer from '../components/Footer'
 import Navbar from '../components/Navbar'
 import '../styles/BroadcastDetail.css'
-import { getSingleBroadcastApi, totalSubscriberCountApi } from '../apis/api'
-import FroalaEditorView from 'react-froala-wysiwyg/FroalaEditorView'
 
 const BroadcastDetail = () => {
     const { id } = useParams();
-    const [broadcastTitle, setBroadcastTitle] = useState('')
-    const [broadcastDescription, setBroadcastDescription] = useState('')
-    const [broadcastTime, setBroadcastTime] = useState('')
-    const [broadcastSentTo, setBroadcastSentTo] = useState('')
-    const [totalsubscriberCount, setTotalSubscriberCount] = useState(0)
+    const [broadcastTitle, setBroadcastTitle] = useState('');
+    const [broadcastDescription, setBroadcastDescription] = useState('');
+    const [broadcastTime, setBroadcastTime] = useState('');
+    const [broadcastSentTo, setBroadcastSentTo] = useState('');
+    const [totalsubscriberCount, setTotalSubscriberCount] = useState(0);
     const [activePage] = useState('broadcast');
 
     useEffect(() => {
@@ -24,7 +25,7 @@ const BroadcastDetail = () => {
             .catch((error) => {
                 console.error("Error fetching total subscriber count:", error);
             });
-        }, [])
+    }, []);
 
     useEffect(() => {
         let listGroupItem = Array.from(document.getElementsByClassName("list-group-item"));
@@ -35,17 +36,17 @@ const BroadcastDetail = () => {
         if (activeID) {
             activeID.classList.add("active");
         }
-    })
+    });
 
-    useEffect(()=> {
-        getSingleBroadcastApi(id).then((res)=> {
-            console.log(res.data.broadcastData)
-            setBroadcastTitle(res.data.broadcastData.broadcastTitle)
-            setBroadcastDescription(res.data.broadcastData.broadcastDescription)
-            setBroadcastTime(res.data.broadcastData.broadcastTime)
-            setBroadcastSentTo(res.data.broadcastData.sendTo)
-        })
-    }, [])
+    useEffect(() => {
+        getSingleBroadcastApi(id).then((res) => {
+            console.log(res.data.broadcastData);
+            setBroadcastTitle(DOMPurify.sanitize(res.data.broadcastData.broadcastTitle));
+            setBroadcastDescription(DOMPurify.sanitize(res.data.broadcastData.broadcastDescription));
+            setBroadcastTime(res.data.broadcastData.broadcastTime);
+            setBroadcastSentTo(res.data.broadcastData.sendTo);
+        });
+    }, [id]);
 
     const progressPercentage = (broadcastSentTo.length / totalsubscriberCount) * 100;
 
@@ -61,7 +62,7 @@ const BroadcastDetail = () => {
                 </div>
                 <div className="broadcast-detail-body">
                     <h1 className='subject'>Subject</h1>
-                    <p style={{fontSize: 18}}>{broadcastTitle}</p>
+                    <p style={{ fontSize: 18 }}>{broadcastTitle}</p>
                     <p className='description'><FroalaEditorView model={broadcastDescription} /></p>
                     <h1 className='stats'>STATS</h1>
                     <div className="row-bd-stats">
@@ -85,4 +86,4 @@ const BroadcastDetail = () => {
     )
 }
 
-export default BroadcastDetail
+export default BroadcastDetail;
