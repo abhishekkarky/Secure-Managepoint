@@ -1,9 +1,9 @@
+import DOMPurify from 'dompurify'
 import React, { useState } from 'react'
 import { toast } from 'react-hot-toast'
 import { Link, useNavigate } from 'react-router-dom'
 import { createUserApi } from '../apis/api'
 import '../styles/Login.css'
-import DOMPurify from 'dompurify';
 
 const Register = () => {
     const [fullName, setFullName] = useState('');
@@ -46,15 +46,25 @@ const Register = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        const isValid = validate()
+        // Sanitize inputs
+        const sanitizedFullName = DOMPurify.sanitize(fullName);
+        const sanitizedEmail = DOMPurify.sanitize(email);
+        const sanitizedPassword = DOMPurify.sanitize(password);
+
+        // Update state with sanitized values
+        setFullName(sanitizedFullName);
+        setEmail(sanitizedEmail);
+        setPassword(sanitizedPassword);
+
+        const isValid = validate();
         if (!isValid) {
-            return
+            return;
         }
 
         const data = {
-            fullName: fullName,
-            email: email,
-            password: password,
+            fullName: sanitizedFullName,
+            email: sanitizedEmail,
+            password: sanitizedPassword,
         };
 
         // Making API call
@@ -64,7 +74,7 @@ const Register = () => {
                     toast.error(res.data.message);
                 } else {
                     toast.success(res.data.message);
-                    navigate('/login')
+                    navigate('/login');
                 }
             })
             .catch((err) => {
