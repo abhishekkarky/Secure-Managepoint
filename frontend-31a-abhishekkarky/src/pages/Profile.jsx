@@ -30,6 +30,9 @@ const Profile = () => {
   const [userImage, setUserImage] = useState(null);
   const [previewImage, setPreviewImage] = useState(null);
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
+  const sanitizeInput = (input) => {
+    return DOMPurify.sanitize(input);
+  };
 
   const handleImageUploadAndSubmit = (userImage) => {
     const formData = new FormData();
