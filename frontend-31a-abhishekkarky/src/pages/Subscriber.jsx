@@ -117,12 +117,7 @@ const Subscriber = () => {
       <main className="subscriber-main">
         <div className="s-main-top">
           <h1 className="text-4xl">All Subscribers</h1>
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              setSearchQuery(e.target.query.value);
-            }}
-          >
+          <form onSubmit={handleSearchQuery}>
             <input type="text" placeholder="Search subscribers" name="query" />
             <button type="submit">Search</button>
           </form>
