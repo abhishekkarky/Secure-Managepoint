@@ -6,7 +6,7 @@ import { deleteBroadcastByApi, getAllBroadcastApi } from '../apis/api';
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
 import '../styles/Broadcast.css';
-
+import DOMPurify from 'dompurify';
 const Queued = () => {
   const [broadcastAll, setBroadcastAll] = useState([]);
   const [broadcastDraft, setBroadcastDraft] = useState([]);
