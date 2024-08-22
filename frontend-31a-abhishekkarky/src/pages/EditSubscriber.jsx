@@ -1,15 +1,18 @@
-import DOMPurify from 'dompurify'
-import React, { useEffect, useState } from 'react'
-import { toast } from 'react-hot-toast'
-import { Link, useNavigate, useParams } from 'react-router-dom'
-import { getSubscriberByIdApi, updateSubscriberByIdApi } from '../apis/api'
-import Footer from '../components/Footer'
-import Navbar from '../components/Navbar'
+import DOMPurify from 'dompurify';
+import React, { useEffect, useState } from 'react';
+import { toast } from 'react-hot-toast';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import { getSubscriberByIdApi, updateSubscriberByIdApi } from '../apis/api';
+import Footer from '../components/Footer';
+import Navbar from '../components/Navbar';
 
 const EditSubscriber = () => {
+  const { id } = useParams();
+  const navigate = useNavigate();
 
-  const { id } = useParams()
-  const navigate = useNavigate()
+  const [fullName, setFullName] = useState('');
+  const [email, setEmail] = useState('');
+  const [activePage] = useState('subscribers');
 
   useEffect(() => {
     getSubscriberByIdApi(id).then((res) => {
@@ -18,11 +21,6 @@ const EditSubscriber = () => {
       setEmail(DOMPurify.sanitize(res.data.subscriberData.email));
     });
   }, [id]);
-
-
-  const [fullName, setFullName] = useState('')
-  const [email, setEmail] = useState('')
-  const [activePage] = useState('subscribers');
 
   useEffect(() => {
     let listGroupItem = Array.from(document.getElementsByClassName("list-group-item"));
@@ -33,24 +31,26 @@ const EditSubscriber = () => {
     if (activeID) {
       activeID.classList.add("active");
     }
-  })
-
+  }, [activePage]);
 
   const handleSubmit = (e) => {
-    e.preventDefault()
-    console.log(fullName, email)
+    e.preventDefault();
+    console.log(fullName, email);
+
+    // Sanitize input values
+    const sanitizedFullName = DOMPurify.sanitize(fullName);
+    const sanitizedEmail = DOMPurify.sanitize(email);
 
     const formData = new FormData();
-    formData.append('fullName', fullName)
-    formData.append('email', email)
+    formData.append('fullName', sanitizedFullName);
+    formData.append('email', sanitizedEmail);
 
     updateSubscriberByIdApi(id, formData).then((res) => {
-      if (res.data.success == true) {
-        toast.success(res.data.message)
-        navigate('/subscriber')
-      }
-      else {
-        toast.error(res.data.message)
+      if (res.data.success === true) {
+        toast.success(res.data.message);
+        navigate('/subscriber');
+      } else {
+        toast.error(res.data.message);
       }
     }).catch(err => {
       if (err.response && err.response.status === 403) {
@@ -59,8 +59,8 @@ const EditSubscriber = () => {
         toast.error('Something went wrong');
         console.log(err.message);
       }
-    })
-  }
+    });
+  };
 
   return (
     <>
@@ -94,7 +94,7 @@ const EditSubscriber = () => {
       </main>
       <Footer />
     </>
-  )
-}
+  );
+};
 
-export default EditSubscriber
+export default EditSubscriber;
