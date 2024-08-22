@@ -11,25 +11,30 @@ const AddSubscriberCSV = () => {
   const [activePage] = useState('subscribers');
 
   useEffect(() => {
-    let listGroupItem = Array.from(document.getElementsByClassName("list-group-item"));
-    listGroupItem.forEach(i => {
-      i.classList.remove("active");
-    });
-    let activeID = document.getElementById(activePage);
+    // Highlight the active page in the sidebar
+    const listGroupItem = Array.from(document.getElementsByClassName("list-group-item"));
+    listGroupItem.forEach(item => item.classList.remove("active"));
+
+    const activeID = document.getElementById(activePage);
     if (activeID) {
       activeID.classList.add("active");
-      
     }
-  })
+  }, [activePage]);
 
   const handleUpload = (e) => {
     e.preventDefault();
+
+    if (!file) {
+      toast.error('Please select a CSV file to upload.');
+      return;
+    }
+
     const formData = new FormData();
     formData.append('csvFile', file);
 
     addSubscriberCSVApi(formData)
       .then((res) => {
-        if (res.data.success === false) {
+        if (!res.data.success) {
           toast.error(res.data.message);
         } else {
           toast.success(res.data.message);
@@ -41,7 +46,7 @@ const AddSubscriberCSV = () => {
           toast.error(err.response.data.message);
         } else {
           toast.error('Something went wrong');
-          console.log(err.message);
+          console.error(err.message);
         }
       });
   };
@@ -59,10 +64,16 @@ const AddSubscriberCSV = () => {
           <h1 className='text-3xl'>Import Subscriber from CSV</h1>
           <hr />
           <br />
-          <label>Upload a CSV File</label>
-          <span className='text-[12px] text-red-500 mb-2'>* Note! Please add only subscriber's name and email in csv and upload the file.</span>
-          <span className='text-[12px] text-red-500 mb-2'>* In CSV subscriber name and email must be fullName and email</span>
-          <input className='cursor-pointer' type="file" id="csvFile" onChange={(e) => setFile(e.target.files[0])} />
+          <label htmlFor="csvFile">Upload a CSV File</label>
+          <span className='text-[12px] text-red-500 mb-2'>* Note: Please include only subscriber's name and email in the CSV file.</span>
+          <span className='text-[12px] text-red-500 mb-2'>* CSV columns should be named "fullName" and "email".</span>
+          <input
+            className='cursor-pointer'
+            type="file"
+            id="csvFile"
+            accept=".csv"
+            onChange={(e) => setFile(e.target.files[0])}
+          />
           <button type="button" onClick={handleUpload}>Submit</button>
         </form>
       </main>
