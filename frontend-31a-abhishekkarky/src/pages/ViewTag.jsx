@@ -1,3 +1,4 @@
+import DOMPurify from 'dompurify';
 import React, { useEffect, useState } from 'react';
 import { getAllGroupApi } from '../apis/api';
 const ViewTag = () => {
@@ -41,8 +42,7 @@ const ViewTag = () => {
     setFilteredSubscribers(filtered);
   }, [searchQuery, group]);
 
-  const pageCount = Math.ceil(filteredSubscribers.length / groupsPerPage);
-  const handleSearch = (e) => {
+  const pageCount = Math.ceil(filteredSubscribers.length / groupsPerPage); const handleSearch = (e) => {
     e.preventDefault();
     const sanitizedQuery = DOMPurify.sanitize(e.target.query.value);
     setSearchQuery(sanitizedQuery);
@@ -57,6 +57,8 @@ const ViewTag = () => {
       <button className='search-button' type="submit">Search</button>
     </form>
   );
+
+
 
 };
 
