@@ -180,32 +180,31 @@ const EditBroadcast = () => {
     const handleSaveToDraft = (e) => {
         e.preventDefault();
 
+        const sanitizedTitle = DOMPurify.sanitize(broadcastTitle);
+        const sanitizedDescription = DOMPurify.sanitize(broadcastDescription);
+
         const requestBody = {
-            broadcastTitle,
+            broadcastTitle: sanitizedTitle,
             broadcastTo,
             broadcastTime,
-            broadcastDescription,
+            broadcastDescription: sanitizedDescription,
             broadcastStatus: 'Draft',
             broadcastVisibility: "Draft",
         };
 
         switch (selectedOption) {
             case 'Tag':
-                requestBody.broadcastGroup = broadcastGroup.value;
+                requestBody.broadcastGroup = broadcastGroup.map(group => group.value);
                 break;
             case 'Segment':
-                requestBody.broadcastGroup = broadcastGroup.value;
+                requestBody.broadcastGroup = broadcastGroup.map(group => group.value);
                 break;
             case 'Individual':
-                const subscriberValue = subscriber.map((data) => {
-                    return data.value;
-                });
+                const subscriberValue = subscriber.map((data) => data.value);
                 requestBody.sendTo = subscriberValue;
                 break;
             case 'Subscribers':
-                const value = allSubscribers.map((data) => {
-                    return data.value;
-                });
+                const value = allSubscribers.map((data) => data.value);
                 requestBody.sendTo = value;
                 break;
             default:
@@ -214,7 +213,7 @@ const EditBroadcast = () => {
 
         updateBroadcastApi(id, requestBody)
             .then((res) => {
-                if (res.data.success == false) {
+                if (res.data.success === false) {
                     toast.error(res.data.message);
                 } else {
                     toast.success(res.data.message);
