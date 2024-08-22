@@ -167,6 +167,13 @@ const NewBroadcast = () => {
                 }
             });
     };
+    const handleBroadcastTitleChange = (e) => {
+        setBroadcastTitle(DOMPurify.sanitize(e.target.value));
+    };
+
+    const handleBroadcastTimeChange = (e) => {
+        setBroadcastTime(e.target.value);
+    };
 
     const handleSaveToDraft = (e) => {
         e.preventDefault();
@@ -281,7 +288,7 @@ const NewBroadcast = () => {
                     )}
 
                     <label>Broadcast Time <span style={{ color: 'red' }}>*</span></label>
-              
+
                     <input onChange={handleBroadcastTimeChange} type="datetime-local" defaultValue={defaultTime} min={defaultTime} />
                     <label>Broadcasting Message <span style={{ color: 'red' }}>*</span></label>
                     <FroalaEditor
