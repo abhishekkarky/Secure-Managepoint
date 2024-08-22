@@ -5,7 +5,7 @@ import { editUserApi, getUserByIdApi, updateUserImageApi } from '../apis/api';
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
 import '../styles/Profile.css';
-
+import DOMPurify from 'dompurify';
 const Profile = () => {
   const { id } = useParams();
   const [user, setUser] = useState('');
