@@ -5,7 +5,7 @@ import Select from 'react-select';
 import { getAllSubscribersApi, getGroupByIdApi, updateGroupByIdApi } from '../apis/api';
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
-
+import DOMPurify from 'dompurify';
 const EditSegment = () => {
   const { id } = useParams();
   const [name, setName] = useState('');
