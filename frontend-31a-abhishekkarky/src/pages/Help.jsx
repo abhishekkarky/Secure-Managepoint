@@ -3,47 +3,30 @@ import toast from 'react-hot-toast';
 import { Link, useNavigate } from 'react-router-dom';
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
-import DOMPurify from 'dompurify';
 
 const Help = () => {
     const navigate = useNavigate();
     const user = JSON.parse(localStorage.getItem('user'));
     const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
-    const handleLogout = () => {
-        localStorage.clear();
-        navigate('/');
-        toast('See you soon! Bye', {
-            icon: '👋',
-        });
-    };
-
-    const openLogoutModal = () => {
-        setIsLogoutModalOpen(true);
-    };
-
-    const closeLogoutModal = () => {
-        setIsLogoutModalOpen(false);
-    };
-
     const [faqData, setFaqData] = useState([
         {
-            question: 'How can I add subscribers in group?',
-            answer: "After logging in to your account, you will be redirected to the dashboard where you can view analytics and find buttons on the right side of the page. Click on the 'Add Subscribers' button, and you will be redirected to a new page. On this page, look for the option to 'Import Subscribers from CSV' and click on it. Upload the CSV file containing your subscribers' details, then submit. You are now good to go!",
+            question: 'How can I add subscribers to a group?',
+            answer: "After logging in to your account, you will be redirected to the dashboard where you can view analytics and find buttons on the right side of the page. Click on the 'Add Subscribers' button, and you will be redirected to a new page. On this page, look for the option to 'Import Subscribers from CSV' and click on it. Upload the CSV file containing your subscribers' details, then submit.",
             expanded: false,
         },
         {
-            question: 'How can I make group of subscribers to send Broadcast?',
-            answer: "On the Subscribers page, you will find a 'Tags' and 'Segments' section. Click on the link provided below the text to go to the respective page. You will be redirected to the 'Add Tags' or 'Add Segments' page. Create groups and add subscribers according to your needs. You are now good to go!",
+            question: 'How can I create a group of subscribers to send Broadcast?',
+            answer: "On the Subscribers page, you will find a 'Tags' and 'Segments' section. Click on the link provided below the text to go to the respective page. You will be redirected to the 'Add Tags' or 'Add Segments' page. Create groups and add subscribers according to your needs.",
             expanded: false,
         },
         {
-            question: 'Can I send Broadcast to multiple subscribers at once?',
-            answer: "Yes, on Managepoint, you can send a broadcast to multiple recipients by navigating to the broadcast page. Click on 'New Broadcast,' then fill out the form according to your needs. You can choose the recipients by tags, segments, individual subscribers, or all subscribers. Finally, click the 'Send' button at the bottom of the form. You are now good to go!",
+            question: 'Can I send a Broadcast to multiple subscribers at once?',
+            answer: "Yes, on Managepoint, you can send a broadcast to multiple recipients by navigating to the broadcast page. Click on 'New Broadcast,' then fill out the form according to your needs. You can choose the recipients by tags, segments, individual subscribers, or all subscribers. Finally, click the 'Send' button at the bottom of the form.",
             expanded: false,
         },
         {
-            question: 'Can I save my Subscribers detail on my local storage by any means?',
-            answer: "Yes, on Managepoint, you can save all your subscriber details on a local computer or any device you are using by navigating to the subscribers' page. At the bottom of the page, where you can see 'Export Subscribers in CSV,' click that button and download. You are now good to go!",
+            question: 'Can I save my Subscribers details to my local storage?',
+            answer: "Yes, on Managepoint, you can save all your subscriber details to your local computer or any device you are using by navigating to the subscribers' page. At the bottom of the page, where you can see 'Export Subscribers in CSV,' click that button and download.",
             expanded: false,
         },
     ]);
@@ -60,6 +43,21 @@ const Help = () => {
         });
     };
 
+    const handleLogout = () => {
+        localStorage.clear();
+        navigate('/');
+        toast('See you soon! Bye', {
+            icon: '👋',
+        });
+    };
+
+    const openLogoutModal = () => {
+        setIsLogoutModalOpen(true);
+    };
+
+    const closeLogoutModal = () => {
+        setIsLogoutModalOpen(false);
+    };
 
     return (
         <>
@@ -76,11 +74,11 @@ const Help = () => {
                     <hr className='mt-2' />
                     <div className="p-1">
                         <p className='text-md font-md mt-1'>FAQs</p>
-                        <section class="bg-white text-black">
-                            <div class="container max-w-4xl px-1 py-5 mx-auto">
+                        <section className="bg-white text-black">
+                            <div className="container max-w-4xl px-1 py-5 mx-auto">
                                 <div className="space-y-4">
                                     {faqData.map((faq, index) => (
-                                        <div key={index} className="border-2 border-neutral-200 rounded-md ">
+                                        <div key={index} className="border-2 border-neutral-200 rounded-md">
                                             <button
                                                 onClick={() => toggleAccordion(index)}
                                                 className="flex items-center justify-between !w-full px-2 !mt-0 !border-white !shadow-none !transition-none !transform-none !h-10"
@@ -117,8 +115,8 @@ const Help = () => {
                                     <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
                                         <div className="sm:flex sm:items-start">
                                             <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
-                                                <svg className="h-6 w-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+                                                <svg className="h-6 w-6 text-red-600" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" aria-hidden="true">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
                                                 </svg>
                                             </div>
                                             <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
@@ -151,7 +149,7 @@ const Help = () => {
 
             <Footer />
         </>
-    )
-}
+    );
+};
 
-export default Help
+export default Help;
