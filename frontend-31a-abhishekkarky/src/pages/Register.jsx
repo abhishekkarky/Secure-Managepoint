@@ -3,6 +3,7 @@ import { toast } from 'react-hot-toast'
 import { Link, useNavigate } from 'react-router-dom'
 import { createUserApi } from '../apis/api'
 import '../styles/Login.css'
+import DOMPurify from 'dompurify';
 
 const Register = () => {
     const [fullName, setFullName] = useState('');
