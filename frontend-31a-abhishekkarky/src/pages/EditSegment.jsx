@@ -1,3 +1,4 @@
+import DOMPurify from 'dompurify';
 import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { Link, useParams } from 'react-router-dom';
@@ -5,7 +6,6 @@ import Select from 'react-select';
 import { getAllSubscribersApi, getGroupByIdApi, updateGroupByIdApi } from '../apis/api';
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
-import DOMPurify from 'dompurify';
 const EditSegment = () => {
   const { id } = useParams();
   const [name, setName] = useState('');
@@ -54,17 +54,24 @@ const EditSegment = () => {
       });
   }, [id]);
 
+  const sanitizeInput = (input) => {
+    return DOMPurify.sanitize(input);
+  };
+
+  // In your component
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(name, selectedSubscribers);
+
+    // Sanitize input values
+    const sanitizedName = sanitizeInput(name);
 
     const subscriberValues = selectedSubscribers.map((data) => data.value);
     const data = {
-      name: name,
+      name: sanitizedName,
       subscribers: subscriberValues,
     };
 
-    // Api call
+    // API call
     updateGroupByIdApi(id, data)
       .then((res) => {
         if (res.data.success === false) {
@@ -82,6 +89,7 @@ const EditSegment = () => {
         }
       });
   };
+
 
   return (
     <>
