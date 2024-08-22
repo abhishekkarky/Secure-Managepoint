@@ -57,6 +57,7 @@ const Completed = () => {
     });
   }, [isUpdated]);
 
+
   useEffect(() => {
     const filtered = broadcastAll.filter((data) =>
       data.broadcastTitle.toLowerCase().includes(searchQuery.toLowerCase())
@@ -180,7 +181,8 @@ const Completed = () => {
           <form
             onSubmit={(e) => {
               e.preventDefault();
-              setSearchQuery(e.target.query.value);
+              const query = e.target.query.value;
+              setSearchQuery(DOMPurify.sanitize(query)); // Sanitize query before setting it
             }}
             className='search-form'>
             <input
@@ -193,6 +195,7 @@ const Completed = () => {
               Search
             </button>
           </form>
+
           {displaygroups}
           <br />
           <hr />
