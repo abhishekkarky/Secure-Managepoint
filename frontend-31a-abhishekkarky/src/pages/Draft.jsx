@@ -6,7 +6,6 @@ import { deleteBroadcastByApi, getAllBroadcastApi } from '../apis/api';
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
 import '../styles/Broadcast.css';
-import DOMPurify from 'dompurify';
 
 const Draft = () => {
   const [broadcastAll, setBroadcastAll] = useState([]);
@@ -39,7 +38,7 @@ const Draft = () => {
       day: 'numeric',
       hour: 'numeric',
       minute: 'numeric',
-      hour12: true 
+      hour12: true
     };
 
     const date = new Date(broadcastTime);
@@ -165,32 +164,36 @@ const Draft = () => {
               setSearchQuery(e.target.query.value);
             }}
             className='search-form'>
-            <input
-              className='search-input'
-              type="text"
-              placeholder="Search All Drafts"
-              name="query"
+            <form
+              onSubmit={handleSearch}
+              className='search-form'>
+              <input
+                className='search-input'
+                type="text"
+                placeholder="Search All Drafts"
+                name="query"
+              />
+              <button className='search-button' type="submit">
+                Search
+              </button>
+            </form>
+
+            {displaygroups}
+            <br />
+            <hr />
+            <ReactPaginate
+              pageCount={pageCount}
+              pageRangeDisplayed={5}
+              marginPagesDisplayed={2}
+              onPageChange={handlePageClick}
+              containerClassName={'pagination'}
+              previousLabel={<i className="fa-solid fa-circle-left"></i>}
+              nextLabel={<i className="fa-solid fa-circle-right"></i>}
+              previousLinkClassName={'pagination__link'}
+              nextLinkClassName={'pagination__link'}
+              disabledClassName={'pagination__link--disabled'}
+              activeClassName={'pagination__link--active'}
             />
-            <button className='search-button' type="submit">
-              Search
-            </button>
-          </form>
-          {displaygroups}
-          <br />
-          <hr />
-          <ReactPaginate
-            pageCount={pageCount}
-            pageRangeDisplayed={5}
-            marginPagesDisplayed={2}
-            onPageChange={handlePageClick}
-            containerClassName={'pagination'}
-            previousLabel={<i className="fa-solid fa-circle-left"></i>}
-            nextLabel={<i className="fa-solid fa-circle-right"></i>}
-            previousLinkClassName={'pagination__link'}
-            nextLinkClassName={'pagination__link'}
-            disabledClassName={'pagination__link--disabled'}
-            activeClassName={'pagination__link--active'}
-          />
         </div>
       </main>
       {isDeleteModalOpen && (
