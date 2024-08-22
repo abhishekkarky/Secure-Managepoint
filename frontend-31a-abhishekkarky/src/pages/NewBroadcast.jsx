@@ -233,7 +233,7 @@ const NewBroadcast = () => {
                 <form className="new-main-bottom">
                     <h1 className='text-3xl font-bold'>Create a new broadcast <i className="fa-solid fa-bullhorn" style={{ color: 'red', marginLeft: 10 }}></i></h1>
                     <label>Broadcast Title <span style={{ color: 'red' }}>*</span></label>
-                    <input onChange={(e) => setBroadcastTitle(e.target.value)} type="text" placeholder='Title' />
+                    <input onChange={handleBroadcastTitleChange} type="text" placeholder='Title' />
                     <label>Select? <span style={{ color: 'red' }}>*</span></label>
                     <select onChange={(e) => {
                         setBroadcastTo(e.target.value);
@@ -281,7 +281,8 @@ const NewBroadcast = () => {
                     )}
 
                     <label>Broadcast Time <span style={{ color: 'red' }}>*</span></label>
-                    <input onChange={(e) => setBroadcastTime(e.target.value)} type="datetime-local" defaultValue={defaultTime} min={defaultTime} />
+              
+                    <input onChange={handleBroadcastTimeChange} type="datetime-local" defaultValue={defaultTime} min={defaultTime} />
                     <label>Broadcasting Message <span style={{ color: 'red' }}>*</span></label>
                     <FroalaEditor
                         model={broadcastDescription}
