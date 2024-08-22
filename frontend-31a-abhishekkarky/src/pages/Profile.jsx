@@ -1,3 +1,4 @@
+import DOMPurify from 'dompurify';
 import React, { useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { Link, useParams } from 'react-router-dom';
@@ -5,7 +6,6 @@ import { editUserApi, getUserByIdApi, updateUserImageApi } from '../apis/api';
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
 import '../styles/Profile.css';
-import DOMPurify from 'dompurify';
 const Profile = () => {
   const { id } = useParams();
   const [user, setUser] = useState('');
@@ -73,17 +73,22 @@ const Profile = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    const sanitizedFullName = sanitizeInput(fullName);
+    const sanitizedEmail = sanitizeInput(email);
+    const sanitizedAddress = sanitizeInput(address);
+    const sanitizedNumber = sanitizeInput(number);
+
     const userFormData = new FormData();
-    userFormData.append('fullName', fullName);
-    userFormData.append('email', email);
-    userFormData.append('address', address);
-    userFormData.append('number', number);
+    userFormData.append('fullName', sanitizedFullName);
+    userFormData.append('email', sanitizedEmail);
+    userFormData.append('address', sanitizedAddress);
+    userFormData.append('number', sanitizedNumber);
 
     editUserApi(id, userFormData)
       .then((userRes) => {
         if (userRes.data.success === true) {
           toast.success(userRes.data.message);
-          setIsUpdated((v) => !v)
+          setIsUpdated((v) => !v);
         } else {
           toast.error(userRes.data.message);
         }
