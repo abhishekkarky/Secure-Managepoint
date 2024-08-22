@@ -300,6 +300,7 @@ const EditBroadcast = () => {
                         defaultValue={defaultTime}
                         min={defaultTime}
                     />
+
                     <label>Broadcasting Message <span style={{ color: 'red' }}>*</span></label>
                     <FroalaEditor
                         model={broadcastDescription}
