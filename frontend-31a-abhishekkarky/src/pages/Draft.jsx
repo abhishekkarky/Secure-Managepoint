@@ -1,3 +1,4 @@
+import DOMPurify from 'dompurify';
 import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import ReactPaginate from 'react-paginate';
@@ -40,7 +41,11 @@ const Draft = () => {
       minute: 'numeric',
       hour12: true
     };
-
+    const handleSearch = (e) => {
+      e.preventDefault();
+      const sanitizedQuery = DOMPurify.sanitize(e.target.query.value);
+      setSearchQuery(sanitizedQuery);
+    };
     const date = new Date(broadcastTime);
     const formattedDateString = date.toLocaleDateString('en-US', optionsDateTime);
 
@@ -159,41 +164,35 @@ const Draft = () => {
         </div>
         <div className="main-bottom">
           <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              setSearchQuery(e.target.query.value);
-            }}
+            onSubmit={handleSearch}
             className='search-form'>
-            <form
-              onSubmit={handleSearch}
-              className='search-form'>
-              <input
-                className='search-input'
-                type="text"
-                placeholder="Search All Drafts"
-                name="query"
-              />
-              <button className='search-button' type="submit">
-                Search
-              </button>
-            </form>
-
-            {displaygroups}
-            <br />
-            <hr />
-            <ReactPaginate
-              pageCount={pageCount}
-              pageRangeDisplayed={5}
-              marginPagesDisplayed={2}
-              onPageChange={handlePageClick}
-              containerClassName={'pagination'}
-              previousLabel={<i className="fa-solid fa-circle-left"></i>}
-              nextLabel={<i className="fa-solid fa-circle-right"></i>}
-              previousLinkClassName={'pagination__link'}
-              nextLinkClassName={'pagination__link'}
-              disabledClassName={'pagination__link--disabled'}
-              activeClassName={'pagination__link--active'}
+            <input
+              className='search-input'
+              type="text"
+              placeholder="Search All Drafts"
+              name="query"
             />
+            <button className='search-button' type="submit">
+              Search
+            </button>
+          </form>
+
+          {displaygroups}
+          <br />
+          <hr />
+          <ReactPaginate
+            pageCount={pageCount}
+            pageRangeDisplayed={5}
+            marginPagesDisplayed={2}
+            onPageChange={handlePageClick}
+            containerClassName={'pagination'}
+            previousLabel={<i className="fa-solid fa-circle-left"></i>}
+            nextLabel={<i className="fa-solid fa-circle-right"></i>}
+            previousLinkClassName={'pagination__link'}
+            nextLinkClassName={'pagination__link'}
+            disabledClassName={'pagination__link--disabled'}
+            activeClassName={'pagination__link--active'}
+          />
         </div>
       </main>
       {isDeleteModalOpen && (
