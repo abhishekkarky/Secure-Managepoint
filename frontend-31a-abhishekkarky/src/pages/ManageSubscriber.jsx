@@ -1,3 +1,4 @@
+import DOMPurify from 'dompurify';
 import React, { useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import ReactPaginate from 'react-paginate';
@@ -6,7 +7,6 @@ import { deleteSubscriberByIdApi, getAllSubscribersApi } from '../apis/api';
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
 import '../styles/Profile.css';
-import DOMPurify from 'dompurify';
 
 const ManageSubscriber = () => {
   const [subscribers, setSubscribers] = useState([]);
@@ -20,16 +20,16 @@ const ManageSubscriber = () => {
   const [selectedSubscriber, setSelectedSubscriber] = useState(null);
   const [activePage] = useState('subscribers');
 
-    useEffect(() => {
-        let listGroupItem = Array.from(document.getElementsByClassName("list-group-item"));
-        listGroupItem.forEach(i => {
-            i.classList.remove("active");
-        });
-        let activeID = document.getElementById(activePage);
-        if (activeID) {
-            activeID.classList.add("active");
-        }
-    })
+  useEffect(() => {
+    let listGroupItem = Array.from(document.getElementsByClassName("list-group-item"));
+    listGroupItem.forEach(i => {
+      i.classList.remove("active");
+    });
+    let activeID = document.getElementById(activePage);
+    if (activeID) {
+      activeID.classList.add("active");
+    }
+  }, [activePage]);
 
   useEffect(() => {
     getAllSubscribersApi()
@@ -43,7 +43,7 @@ const ManageSubscriber = () => {
 
   useEffect(() => {
     const filtered = subscribers.filter((subscriber) =>
-      subscriber.fullName.toLowerCase().includes(searchQuery.toLowerCase())
+      DOMPurify.sanitize(subscriber.fullName).toLowerCase().includes(searchQuery.toLowerCase())
     );
     setFilteredSubscribers(filtered);
   }, [searchQuery, subscribers]);
@@ -71,8 +71,8 @@ const ManageSubscriber = () => {
     .slice(pageNumber * subscribersPerPage, (pageNumber + 1) * subscribersPerPage)
     .map((data) => (
       <tr key={data._id}>
-        <td>{data.fullName}</td>
-        <td>{data.email}</td>
+        <td>{DOMPurify.sanitize(data.fullName)}</td>
+        <td>{DOMPurify.sanitize(data.email)}</td>
         <td>
           <Link className='edit-button' to={`/editSubscriber/details/${data._id}`}>
             <i className="fa-regular fa-pen-to-square" style={{ fontSize: 12 }}></i>
@@ -113,7 +113,7 @@ const ManageSubscriber = () => {
           <form
             onSubmit={(e) => {
               e.preventDefault();
-              setSearchQuery(e.target.query.value);
+              setSearchQuery(DOMPurify.sanitize(e.target.query.value));
             }}
             className='search-form'
           >
@@ -186,7 +186,13 @@ const ManageSubscriber = () => {
                     >
                       Delete
                     </button>
-                    <button type="button" onClick={closeDeleteModal} className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto">Cancel</button>
+                    <button
+                      type="button"
+                      className="inline-flex w-full justify-center rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-gray-900/10 hover:ring-gray-900/20 sm:w-auto"
+                      onClick={closeDeleteModal}
+                    >
+                      Cancel
+                    </button>
                   </div>
                 </div>
               </div>
