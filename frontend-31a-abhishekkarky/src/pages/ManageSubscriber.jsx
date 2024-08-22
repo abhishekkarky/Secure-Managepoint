@@ -6,6 +6,7 @@ import { deleteSubscriberByIdApi, getAllSubscribersApi } from '../apis/api';
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
 import '../styles/Profile.css';
+import DOMPurify from 'dompurify';
 
 const ManageSubscriber = () => {
   const [subscribers, setSubscribers] = useState([]);
