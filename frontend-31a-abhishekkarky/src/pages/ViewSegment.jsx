@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 import { deleteGroupByIdApi, getAllGroupApi } from '../apis/api';
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
-import DOMPurify from 'dompurify';
 
 const ViewSegment = () => {
   const [group, setGroup] = useState([]);
@@ -123,46 +122,44 @@ const ViewSegment = () => {
             <button className='search-button' type="submit">Search</button>
           </form>
 
-          <input className='search-input' type="text" placeholder="Search Segment" name="query" />
-          <button className='search-button' type="submit">Search</button>
-        </form>
-        <br />
-        {filteredSubscribers.length === 0 ? (
-          <h2 style={{ textAlign: 'center' }}>No Segments to show</h2>
-        ) : (
-          <>
-            <table className="table">
-              <thead>
-                <tr>
-                  <th scope="col">Segment Name</th>
-                  <th scope="col">Subscriber</th>
-                  <th scope="col">Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {displaygroups}
-              </tbody>
-            </table>
-            <br />
-            <hr />
-            <ReactPaginate
-              pageCount={pageCount}
-              pageRangeDisplayed={5}
-              marginPagesDisplayed={2}
-              onPageChange={handlePageClick}
-              containerClassName={'pagination'}
-              previousLabel={<i className="fa-solid fa-circle-left"></i>}
-              nextLabel={<i className="fa-solid fa-circle-right"></i>}
-              previousLinkClassName={'pagination__link'}
-              nextLinkClassName={'pagination__link'}
-              disabledClassName={'pagination__link--disabled'}
-              activeClassName={'pagination__link--active'}
-            />
-          </>
-        )}
-      </div>
-    </main >
-      { isDeleteModalOpen && (
+
+          <br />
+          {filteredSubscribers.length === 0 ? (
+            <h2 style={{ textAlign: 'center' }}>No Segments to show</h2>
+          ) : (
+            <>
+              <table className="table">
+                <thead>
+                  <tr>
+                    <th scope="col">Segment Name</th>
+                    <th scope="col">Subscriber</th>
+                    <th scope="col">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {displaygroups}
+                </tbody>
+              </table>
+              <br />
+              <hr />
+              <ReactPaginate
+                pageCount={pageCount}
+                pageRangeDisplayed={5}
+                marginPagesDisplayed={2}
+                onPageChange={handlePageClick}
+                containerClassName={'pagination'}
+                previousLabel={<i className="fa-solid fa-circle-left"></i>}
+                nextLabel={<i className="fa-solid fa-circle-right"></i>}
+                previousLinkClassName={'pagination__link'}
+                nextLinkClassName={'pagination__link'}
+                disabledClassName={'pagination__link--disabled'}
+                activeClassName={'pagination__link--active'}
+              />
+            </>
+          )}
+        </div>
+      </main>
+      {isDeleteModalOpen && (
         <div className="modal-container">
           <div className="relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">
             <div className="fixed inset-0 bg-gray-500 bg-opacity-90 transition-opacity"></div>
@@ -211,9 +208,8 @@ const ViewSegment = () => {
             </div>
           </div>
         </div>
-      )
-}
-<Footer />
+      )}
+      <Footer />
     </>
   );
 }
