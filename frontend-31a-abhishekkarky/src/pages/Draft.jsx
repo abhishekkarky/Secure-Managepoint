@@ -32,6 +32,12 @@ const Draft = () => {
     }
   })
 
+  const handleSearch = (e) => {
+    e.preventDefault();
+    const sanitizedQuery = DOMPurify.sanitize(e.target.query.value);
+    setSearchQuery(sanitizedQuery);
+  };
+
   const formattedDate = (broadcastTime) => {
     const optionsDateTime = {
       year: 'numeric',
@@ -41,11 +47,7 @@ const Draft = () => {
       minute: 'numeric',
       hour12: true
     };
-    const handleSearch = (e) => {
-      e.preventDefault();
-      const sanitizedQuery = DOMPurify.sanitize(e.target.query.value);
-      setSearchQuery(sanitizedQuery);
-    };
+
     const date = new Date(broadcastTime);
     const formattedDateString = date.toLocaleDateString('en-US', optionsDateTime);
 
