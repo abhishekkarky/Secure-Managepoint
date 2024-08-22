@@ -1,10 +1,10 @@
+import DOMPurify from 'dompurify'
 import React, { useEffect, useState } from 'react'
 import { toast } from 'react-hot-toast'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { getSubscriberByIdApi, updateSubscriberByIdApi } from '../apis/api'
 import Footer from '../components/Footer'
 import Navbar from '../components/Navbar'
-import DOMPurify from 'dompurify';
 
 const EditSubscriber = () => {
 
@@ -13,11 +13,12 @@ const EditSubscriber = () => {
 
   useEffect(() => {
     getSubscriberByIdApi(id).then((res) => {
-      console.log(res.data)
-      setFullName(res.data.subscriberData.fullName)
-      setEmail(res.data.subscriberData.email)
-    })
-  }, [id])
+      console.log(res.data);
+      setFullName(DOMPurify.sanitize(res.data.subscriberData.fullName));
+      setEmail(DOMPurify.sanitize(res.data.subscriberData.email));
+    });
+  }, [id]);
+
 
   const [fullName, setFullName] = useState('')
   const [email, setEmail] = useState('')
