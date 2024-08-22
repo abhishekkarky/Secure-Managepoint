@@ -102,14 +102,17 @@ const NewBroadcast = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         const loadingToast = toast.loading('Broadcasting.....')
-
+    
+        // Sanitize the broadcastDescription
+        const sanitizedDescription = DOMPurify.sanitize(broadcastDescription);
+    
         const requestBody = {
             broadcastTitle,
             broadcastTo,
             broadcastTime,
-            broadcastDescription,
+            broadcastDescription: sanitizedDescription,
         };
-
+    
         switch (selectedOption) {
             case 'Tag':
                 requestBody.broadcastGroup = broadcastGroup.value;
@@ -133,17 +136,17 @@ const NewBroadcast = () => {
             default:
                 break;
         }
-
+    
         const today = new Date().toLocaleString('en-US', options);
         const currentTime = new Date(broadcastTime).toLocaleString('en-US', options);
-
+    
         if (currentTime <= today) {
             requestBody.broadcastStatus = 'Sent';
         } else {
             requestBody.broadcastStatus = 'Queued';
             requestBody.broadcastVisibility = 'Queued';
         }
-
+    
         createBroadcastApi(requestBody)
             .then((res) => {
                 if (res.data.success === false) {
