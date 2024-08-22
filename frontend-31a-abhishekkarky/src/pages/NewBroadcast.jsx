@@ -1,3 +1,4 @@
+import DOMPurify from 'dompurify';
 import 'froala-editor/css/froala_editor.pkgd.min.css';
 import 'froala-editor/css/froala_style.min.css';
 import 'froala-editor/css/themes/dark.min.css';
@@ -10,7 +11,6 @@ import { createBroadcastApi, getAllGroupApi, getAllSubscribersApi } from '../api
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
 import '../styles/NewBroadcast.css';
-import DOMPurify from 'dompurify';
 
 const NewBroadcast = () => {
     const options = {
@@ -102,17 +102,17 @@ const NewBroadcast = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         const loadingToast = toast.loading('Broadcasting.....')
-    
+
         // Sanitize the broadcastDescription
         const sanitizedDescription = DOMPurify.sanitize(broadcastDescription);
-    
+
         const requestBody = {
             broadcastTitle,
             broadcastTo,
             broadcastTime,
             broadcastDescription: sanitizedDescription,
         };
-    
+
         switch (selectedOption) {
             case 'Tag':
                 requestBody.broadcastGroup = broadcastGroup.value;
@@ -136,17 +136,17 @@ const NewBroadcast = () => {
             default:
                 break;
         }
-    
+
         const today = new Date().toLocaleString('en-US', options);
         const currentTime = new Date(broadcastTime).toLocaleString('en-US', options);
-    
+
         if (currentTime <= today) {
             requestBody.broadcastStatus = 'Sent';
         } else {
             requestBody.broadcastStatus = 'Queued';
             requestBody.broadcastVisibility = 'Queued';
         }
-    
+
         createBroadcastApi(requestBody)
             .then((res) => {
                 if (res.data.success === false) {
@@ -171,11 +171,14 @@ const NewBroadcast = () => {
     const handleSaveToDraft = (e) => {
         e.preventDefault();
 
+        // Sanitize the broadcastDescription
+        const sanitizedDescription = DOMPurify.sanitize(broadcastDescription);
+
         const requestBody = {
             broadcastTitle,
             broadcastTo,
             broadcastTime,
-            broadcastDescription,
+            broadcastDescription: sanitizedDescription,
             broadcastStatus: 'Draft',
             broadcastVisibility: "Draft",
         };
