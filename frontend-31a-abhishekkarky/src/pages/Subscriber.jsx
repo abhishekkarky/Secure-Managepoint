@@ -28,11 +28,14 @@ const Subscriber = () => {
       activeID.classList.add("active");
     }
   })
-
   useEffect(() => {
     getAllSubscribersApi()
       .then((res) => {
-        setSubscribers(res.data.subscribers);
+        const sanitizedSubscribers = res.data.subscribers.map(subscriber => ({
+          ...subscriber,
+          fullName: DOMPurify.sanitize(subscriber.fullName),
+        }));
+        setSubscribers(sanitizedSubscribers);
       })
       .catch((error) => {
         console.error('Error fetching subscribers:', error);
@@ -46,6 +49,7 @@ const Subscriber = () => {
         console.error('Error fetching total subscriber count:', error);
       });
   }, []);
+
   const handleSearchQuery = (e) => {
     e.preventDefault();
     const sanitizedQuery = DOMPurify.sanitize(e.target.query.value);
