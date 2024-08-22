@@ -3,6 +3,7 @@ import toast from 'react-hot-toast';
 import { Link, useNavigate } from 'react-router-dom';
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
+import DOMPurify from 'dompurify';
 
 const Help = () => {
     const navigate = useNavigate();
