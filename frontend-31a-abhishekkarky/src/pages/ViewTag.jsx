@@ -22,12 +22,14 @@ const ViewTag = () => {
       activeID.classList.add("active");
     }
   })
-
   useEffect(() => {
-    // Fetch all groups
     getAllGroupApi()
       .then((res) => {
-        setGroup(res.data.tags);
+        const sanitizedData = res.data.tags.map(tag => ({
+          ...tag,
+          name: DOMPurify.sanitize(tag.name), // Sanitize tag names
+        }));
+        setGroup(sanitizedData);
       })
       .catch((error) => {
         console.error('Error fetching group tag:', error);
