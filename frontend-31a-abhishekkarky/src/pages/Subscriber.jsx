@@ -5,6 +5,7 @@ import { exportSubscriberInCSV, getAllSubscribersApi, totalSubscriberCountApi } 
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
 import '../styles/Subscriber.css';
+import DOMPurify from 'dompurify';
 
 const Subscriber = () => {
   const user = JSON.parse(localStorage.getItem("user"));
