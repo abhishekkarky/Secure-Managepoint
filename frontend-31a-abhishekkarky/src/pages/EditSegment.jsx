@@ -38,14 +38,15 @@ const EditSegment = () => {
       });
   }, [])
 
+
   useEffect(() => {
     getGroupByIdApi(id)
       .then((res) => {
         console.log(res.data);
-        setName(res.data.group.name);
+        setName(DOMPurify.sanitize(res.data.group.name));
         let temp = res.data.group.subscribers.map((subscriber) => ({
           value: subscriber._id,
-          label: subscriber.fullName,
+          label: DOMPurify.sanitize(subscriber.fullName),
         }));
         setSelectedSubscribers(temp);
       })
@@ -53,6 +54,7 @@ const EditSegment = () => {
         console.error('Error fetching group:', error);
       });
   }, [id]);
+
 
   const sanitizeInput = (input) => {
     return DOMPurify.sanitize(input);
